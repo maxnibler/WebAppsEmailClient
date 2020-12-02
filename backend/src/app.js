@@ -5,6 +5,7 @@ const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 const path = require('path');
 const OpenApiValidator = require('express-openapi-validator');
+const mail = require('./mail')
 
 const dummy = require('./dummy');
 
@@ -28,6 +29,10 @@ app.use(
 
 app.get('/v0/dummy', dummy.get);
 // Your routes go here
+app.get('/v0/mail', mail.getMailbox);
+app.get('/v0/mail/:id', mail.getEmail);
+app.post('/v0/mail/', mail.postEmail);
+app.put('/v0/mail/:id', mail.putEmail);
 
 app.use((err, req, res, next) => {
   res.status(err.status).json({

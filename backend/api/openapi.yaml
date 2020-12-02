@@ -1,34 +1,115 @@
 #
-# CSE183 Assignment 9 Backend
+# CSE183 Assignment 7
 #
 
 openapi: '3.0.3'
 
 info:
-  description: CSE183 Assignment 9 Backend
+  description: CSE183 Assignment 7
   version: 0.1.0
-  title: CSE183 Assignment 9 Backend
+  title: CSE183 Assignment 7
 
 servers:
-  - url: http://localhost:3010/v0
+  - url: http://localhost:3010
 
 paths:
-  /dummy:
+  /v0/mail:
     get:
-      description: Dummy Endpoint
+      description: Returns all EMail
       responses:
         200:
-          description: Succesful
+          description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DummyResponse'
+                $ref: '#/components/schemas/EmailResponse'
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
         default:
-          description: unexpected error
+          description: Unexpected Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+      parameters:
+      - name: mailbox
+        in: query
+        description: The mailbox of emails to retrieve
+        required: false
+        schema:
+          type: string
+        style: form
+    post:
+      description: Posts an email to the Sent Mailbox
+      responses:
+        201:
+          description: Email Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mail'
+        500: 
+          description: Email has unexpected properties
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostMail'
+              
+  /v0/mail/{id}:
+    get:
+      description: Gets a specific email based on UUID
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Mail'
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      parameters:
+      - name: id
+        in: path
+        description: The UUID of the email to retrieve
+        required: true
+        schema:
+          type: string
+        style: simple
+    put:
+      description: Move email by id into specified Mailbox
+      responses:
+        204:
+          description: Successfully put email into mailbox
+        404:
+          description: Email not Found
+        409: 
+          description: Incoming email cannot be moved to sent
+      parameters:
+      - name: id
+        in: path
+        description: The UUID of the email to retrieve
+        required: true
+        schema:
+          type: string
+        style: simple
+      - name: mailbox
+        in: query
+        description: The destination mailbox for the email
+        required: false
+        schema:
+          type: string
+        style: form
 
 components:
   schemas:
@@ -43,9 +124,51 @@ components:
         message:
           type: string
 
-    DummyResponse:
-      required:
-        - message
+    EmailResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/Mailbox'
+    
+    Mailbox:
+      type: object
       properties:
-        message:
+        name:
+          type: string
+        mail:
+          type: array
+          items:
+            $ref: '#/components/schemas/Mail'
+
+    PostMail:
+      type: object
+      properties:
+        to-name:
+          type: string
+        to-email:
+          type: string
+        subject:
+          type: string
+        received:
+          type: string
+        content:
+          type: string
+
+    Mail:
+      type: object
+      properties:
+        id:
+          type: string
+        to-name:
+          type: string
+        to-email:
+          type: string
+        from-name:
+          type: string
+        from-email:
+          type: string
+        subject:
+          type: string
+        received:
+          type: string
+        content:
           type: string
