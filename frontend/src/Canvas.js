@@ -1,10 +1,11 @@
 import React from 'react';
+import Typography from '@material-ui/core/Typography';
 
 /**
  * @param {function} setMail setMail state
  */
 function getMail(setMail) {
-  fetch('http://localhost:3010/v0/dummy')
+  fetch('http://172.16.0.18:3010/v0/dummy')
       .then((response) => {
         if (!response.ok) {
           throw response;
@@ -27,6 +28,9 @@ export default function canvas(mailbox) {
   const [mail, setMail] = React.useState(undefined);
   return (
     <div>
+      <Typography>
+        {mailbox}
+      </Typography>
       {mail}
       {getMail(setMail)}
     </div>

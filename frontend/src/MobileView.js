@@ -186,9 +186,6 @@ function MobileView() {
       <main className={classes.content} onClick={handleDrawerClose}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Typography>
-            Inbox
-          </Typography>
           {canvas(mailbox)}
         </Container>
       </main>
