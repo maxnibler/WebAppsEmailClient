@@ -22,8 +22,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import MailIcon from '@material-ui/icons/Mail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import searchBar from './SearchBar.js';
-import Canvas from './Canvas.js';
 import taskbar from './taskbar.js';
+import canvas from './Canvas.js';
 
 /**
  * Simple component with no state.
@@ -189,7 +189,7 @@ function DesktopView() {
           <Typography>
             Inbox
           </Typography>
-          <Canvas onClick={handleDrawerClose} />
+          {canvas(mailbox)}
         </Container>
       </main>
     </div>
