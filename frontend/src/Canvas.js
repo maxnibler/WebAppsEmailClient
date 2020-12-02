@@ -29,7 +29,7 @@ export default function canvas(mailbox) {
   return (
     <div>
       <Typography>
-        {mailbox}
+        mailbox: {mailbox}
       </Typography>
       {mail}
       {getMail(setMail)}
