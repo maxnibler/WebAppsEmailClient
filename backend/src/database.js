@@ -25,7 +25,7 @@ exports.allMailboxes = async () => {
 };
 
 getId = async (mail) => {
-  const select = 'SELECT id from mail WHERE mail = $1';
+  const select = 'SELECT id from mail WHERE email = $1';
   const query = {
     text: select,
     values: [mail],
@@ -35,7 +35,7 @@ getId = async (mail) => {
 };
 
 exports.selectMailbox = async (box) => {
-  const select = 'SELECT mail FROM mail WHERE mailbox = $1';
+  const select = 'SELECT email FROM mail WHERE mailbox = $1';
   const query = {
     text: select,
     values: [box],
@@ -49,7 +49,7 @@ exports.selectMailbox = async (box) => {
 };
 
 exports.selectMail = async (id) => {
-  const select = 'SELECT mail from mail WHERE id = $1';
+  const select = 'SELECT email from mail WHERE id = $1';
   const query = {
     text: select,
     values: [id],
@@ -59,7 +59,7 @@ exports.selectMail = async (id) => {
 };
 
 getFrom = async () => {
-  const select = 'SELECT DISTINCT mail from mail WHERE mailbox = $1';
+  const select = 'SELECT DISTINCT email from mail WHERE mailbox = $1';
   const query = {
     text: select,
     values: ['sent'],
@@ -75,7 +75,7 @@ exports.insertMail = async (mail) => {
   mail.from.email = from.email;
   mail.sent = time.toISOString();
   mail.received = time.toISOString();
-  const select = 'INSERT INTO mail(mailbox, mail) VALUES ($1, $2)';
+  const select = 'INSERT INTO mail(mailbox, email) VALUES ($1, $2)';
   const query = {
     text: select,
     values: ['sent', mail],

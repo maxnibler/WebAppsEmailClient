@@ -25,27 +25,6 @@ import searchBar from './SearchBar.js';
 import taskbar from './taskbar.js';
 import canvas from './Canvas.js';
 
-/**
- * Simple component with no state.
- *
- * @param {function} setDummy set the dummy state
- *
-function getDummy(setDummy) {
-  fetch('http://localhost:3010/v0/dummy')
-      .then((response) => {
-        if (!response.ok) {
-          throw response;
-        }
-        return response.json();
-      })
-      .then((json) => {
-        setDummy(json.message);
-      })
-      .catch((error) => {
-        setDummy(error.toString());
-      });
-}*/
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
