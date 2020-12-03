@@ -22,14 +22,21 @@ const useStyles = makeStyles((theme) => ({
   Hidden: {
     display: 'none',
   },
+  mobile: {
+    height: '3.5ch',
+  },
+  normal: {
+
+  },
 }));
 
 /**
  * Default Searchbar function
  * @param {bool} open
+ * @param {bool} mobile
  * @return {JSX}
  */
-export default function searchBar(open) {
+export default function searchBar(open, mobile) {
   const classes = useStyles();
 
   return (
@@ -38,6 +45,7 @@ export default function searchBar(open) {
       variant='outlined'>
       <OutlinedInput
         id='searchbar'
+        className={mobile? classes.mobile : classes.normal}
         startAdornment={
           <InputAdornment position='start'>
             <SearchIcon />

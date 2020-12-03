@@ -162,7 +162,7 @@ function MobileView() {
           >
             <MenuIcon />
           </IconButton>
-          {searchBar(open)}
+          {searchBar(open, true)}
           <IconButton color="inherit">
             <MailIcon />
           </IconButton>
