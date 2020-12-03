@@ -17,23 +17,28 @@ const useStyles = makeStyles((theme) => ({
   },
   mailLeft: {
     float: 'left',
-    width: '34ch',
+    width: '35ch',
     paddingRight: '10px',
     component: 'span',
+    whiteSpace: 'nowrap',
+    textOverflow: 'ellipsis',
   },
   mailRight: {
-    width: '20%',
+    width: '10ch',
     component: 'span',
   },
   subjectLine: {
     fontSize: '10pt',
     textOverflow: 'ellipsis',
+    overflow: 'hidden',
   },
   fromName: {
     fontSize: '11pt',
+    overflow: 'hidden',
   },
   emailContent: {
     fontSize: '8pt',
+    overflow: 'hidden',
   },
 }));
 
@@ -124,7 +129,10 @@ export default function canvas(mailbox) {
           <Typography className={classes.subjectLine}>
             {email.subject}
           </Typography>
-          <Typography className={classes.emailContent}>
+          <Typography
+            className={classes.emailContent}
+            textOverflow='ellipsis'
+          >
             {'Content of email stand in'}
           </Typography>
         </Box>
