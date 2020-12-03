@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import clsx from 'clsx';
+// import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -18,12 +18,32 @@ import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 // import Grid from '@material-ui/core/Grid';
 // import Paper from '@material-ui/core/Paper';
-import MenuIcon from '@material-ui/icons/Menu';
 import MailIcon from '@material-ui/icons/Mail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import searchBar from './SearchBar.js';
 import taskbar from './taskbar.js';
 import canvas from './Canvas.js';
+
+/**
+ * Simple component with no state.
+ *
+ * @param {function} setDummy set the dummy state
+ *
+function getDummy(setDummy) {
+  fetch('http://localhost:3010/v0/dummy')
+      .then((response) => {
+        if (!response.ok) {
+          throw response;
+        }
+        return response.json();
+      })
+      .then((json) => {
+        setDummy(json.message);
+      })
+      .catch((error) => {
+        setDummy(error.toString());
+      });
+}*/
 
 const drawerWidth = 240;
 
@@ -66,6 +86,10 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  drawer: {
+    width: drawerWidth,
+    flexShrink: 0,
+  },
   drawerPaper: {
     position: 'relative',
     whiteSpace: 'nowrap',
@@ -74,17 +98,6 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
@@ -111,11 +124,7 @@ const useStyles = makeStyles((theme) => ({
  */
 function DesktopView() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
   const [mailbox, setMailbox] = React.useState('Inbox');
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -125,20 +134,13 @@ function DesktopView() {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
+        className={classes.appBar}
         width={100}>
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton,
-                open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
-          {searchBar(open)}
+          <Typography>
+            CSE183 Mail
+          </Typography>
+          {searchBar(false)}
           <IconButton color="inherit">
             <MailIcon />
           </IconButton>
@@ -149,15 +151,13 @@ function DesktopView() {
       </AppBar>
       <Drawer
         classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
+          paper: classes.drawerPaper,
         }}
         open={open}
         onClose={handleDrawerClose}
+        variant='permanent'
       >
         <div className={classes.toolbarHeader}>
-          <Typography>
-            CSE183 Mail
-          </Typography>
         </div>
         <Divider />
         {taskbar(mailbox, setMailbox)}
