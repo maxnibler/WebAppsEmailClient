@@ -24,27 +24,6 @@ import searchBar from './SearchBar.js';
 import taskbar from './taskbar.js';
 import canvas from './Canvas.js';
 
-/**
- * Simple component with no state.
- *
- * @param {function} setDummy set the dummy state
- *
-function getDummy(setDummy) {
-  fetch('http://localhost:3010/v0/dummy')
-      .then((response) => {
-        if (!response.ok) {
-          throw response;
-        }
-        return response.json();
-      })
-      .then((json) => {
-        setDummy(json.message);
-      })
-      .catch((error) => {
-        setDummy(error.toString());
-      });
-}*/
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -128,9 +107,6 @@ const useStyles = makeStyles((theme) => ({
 function DesktopView() {
   const classes = useStyles();
   const [mailbox, setMailbox] = React.useState('Inbox');
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -156,8 +132,6 @@ function DesktopView() {
         classes={{
           paper: classes.drawerPaper,
         }}
-        open={open}
-        onClose={handleDrawerClose}
         variant='permanent'
       >
         <div className={classes.toolbarHeader}>
@@ -165,7 +139,7 @@ function DesktopView() {
         <Divider />
         {taskbar(mailbox, setMailbox)}
       </Drawer>
-      <main className={classes.content} onClick={handleDrawerClose}>
+      <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           {canvas(mailbox)}
