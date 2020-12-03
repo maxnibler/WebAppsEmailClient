@@ -17,7 +17,8 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
   },
   mailLeft: {
-    width: '80%',
+    float: 'left',
+    width: '50ch',
     paddingRight: '10px',
     component: 'span',
   },
