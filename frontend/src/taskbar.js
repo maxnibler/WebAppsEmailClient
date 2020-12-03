@@ -38,16 +38,23 @@ function getOtherMailboxes() {
 /**
  * @param {string} mailbox
  * @param {function} setMailbox
+ * @param {function} setOpen
  * @return {JSX}
  */
-export default function taskbar(mailbox, setMailbox) {
+export default function taskbar(mailbox, setMailbox, setOpen) {
   const classes = useStyles();
+  const setNewMailbox = (newMailbox) => {
+    setMailbox(newMailbox);
+    if (setOpen) {
+      setOpen(false);
+    }
+  };
   return (
     <div className={classes.drawerContainer}>
       <List>
         <ListItem
           button
-          onClick={() => setMailbox('Inbox')}
+          onClick={() => setNewMailbox('Inbox')}
           className={
             mailbox=='Inbox'?
               classes.currentMailbox :
@@ -64,7 +71,7 @@ export default function taskbar(mailbox, setMailbox) {
       <List>
         <ListItem
           button
-          onClick={() => setMailbox('Starred')}
+          onClick={() => setNewMailbox('Starred')}
           className={
             mailbox=='Starred'?
               classes.currentMailbox :
@@ -78,7 +85,7 @@ export default function taskbar(mailbox, setMailbox) {
         </ListItem>
         <ListItem
           button
-          onClick={() => setMailbox('Sent')}
+          onClick={() => setNewMailbox('Sent')}
           className={
             mailbox=='Sent'?
               classes.currentMailbox :
@@ -92,7 +99,7 @@ export default function taskbar(mailbox, setMailbox) {
         </ListItem>
         <ListItem
           button
-          onClick={() => setMailbox('Drafts')}
+          onClick={() => setNewMailbox('Drafts')}
           className={
             mailbox=='Drafts'?
               classes.currentMailbox :
@@ -106,7 +113,7 @@ export default function taskbar(mailbox, setMailbox) {
         </ListItem>
         <ListItem
           button
-          onClick={() => setMailbox('Trash')}
+          onClick={() => setNewMailbox('Trash')}
           className={
             mailbox=='Trash'?
               classes.currentMailbox :
@@ -125,7 +132,7 @@ export default function taskbar(mailbox, setMailbox) {
           <ListItem
             button
             key={text}
-            onClick={() => setMailbox(text)}
+            onClick={() => setNewMailbox(text)}
             className={
               mailbox==text?
                 classes.currentMailbox :

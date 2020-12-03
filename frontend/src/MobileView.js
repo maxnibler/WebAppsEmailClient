@@ -184,7 +184,7 @@ function MobileView() {
           </Typography>
         </div>
         <Divider />
-        {taskbar(mailbox, handleMailboxChange)}
+        {taskbar(mailbox, handleMailboxChange, setOpen)}
       </Drawer>
       <main className={classes.content} onClick={handleDrawerClose}>
         <div className={classes.appBarSpacer} />
