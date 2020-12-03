@@ -95,8 +95,10 @@ function formatDate(time) {
 function mailItem(email) {
   return (
     <div>
+      {email.from.name}
+      {'; '}
       {email.subject}
-      {' '}
+      {'; '}
       {formatDate(email.sent)}
       <Divider/>
     </div>
