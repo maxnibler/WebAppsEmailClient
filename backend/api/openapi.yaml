@@ -193,6 +193,9 @@ components:
           type: string
 
     MailboxList:
-      type: array
-      items:
-        type: string
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: string

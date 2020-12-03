@@ -31,10 +31,12 @@ exports.getMailbox = async (req, res) => {
 
 exports.getMailboxes = async (req, res) => {
   const mailboxes = await db.allMailboxes();
+  const objBoxes = {'list': mailboxes};
   if (mailboxes) {
     res.status(200).json(mailboxes);
+  } else {
+    res.status(500).send('No Mailboxes found');
   }
-  res.status(500).send('No Mailboxes found');
 }
 
 /**

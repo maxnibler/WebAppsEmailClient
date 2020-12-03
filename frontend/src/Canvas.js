@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
  * @param {function} setMail setMail state
  */
 function getMail(setMail) {
-  fetch('http://172.16.0.18:3010/v0/dummy')
+  fetch('http://172.16.0.18:3010/v0/mailboxes')
       .then((response) => {
         if (!response.ok) {
           throw response;
@@ -31,7 +31,7 @@ export default function canvas(mailbox) {
       <Typography>
         {mailbox}
       </Typography>
-      {mail}
+      {mail? mail : 'nothing'}
       {getMail(setMail)}
     </div>
   );
