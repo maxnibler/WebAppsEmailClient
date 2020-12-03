@@ -14,11 +14,10 @@ const useStyles = makeStyles((theme) => ({
   listitem: {
     width: '100%',
     border: 1,
-    paddingLeft: theme.spacing(4),
   },
   mailLeft: {
     float: 'left',
-    width: '50ch',
+    width: '34ch',
     paddingRight: '10px',
     component: 'span',
   },
@@ -138,6 +137,9 @@ export default function canvas(mailbox) {
 
   const generateMail = () => {
     let splitMail = mail;
+    if (splitMail == undefined) {
+      return 'Error: No mail found';
+    }
     splitMail = splitMail.splice(0, 50);
     return (
       <List className={classes.list}>
@@ -160,7 +162,7 @@ export default function canvas(mailbox) {
         {mailbox}
       </Typography>
       {getMail(setMail, mailbox)}
-      {mail? generateMail() : 'Error: No mail found'}
+      {generateMail()}
     </div>
   );
 }
