@@ -33,9 +33,6 @@ export default function canvas(mailbox) {
       </Typography>
       {mail? mail : 'nothing'}
       {getMail(setMail)}
-
-
-      
     </div>
   );
 }
