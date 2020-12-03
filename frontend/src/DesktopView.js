@@ -150,14 +150,16 @@ function DesktopView() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Container className={classes.canvas}>
+        <Container className={classes.container}>
+          <Container
+            className={classes.canvas}
+          >
             {canvas(mailbox, setEmail)}
           </Container>
           <Container
             className={clsx(classes.mailViewer, !email && classes.Hidden)}
           >
-            {mailViewer(email, setEmail)}
+            {mailViewer(email, setEmail, false)}
           </Container>
         </Container>
       </main>

@@ -1,8 +1,9 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import {Box, List, ListItem} from '@material-ui/core';
+import {Box, List, ListItem, Avatar} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import {makeStyles} from '@material-ui/core/styles';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,10 +23,12 @@ const useStyles = makeStyles((theme) => ({
     component: 'span',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
+    flex: 1,
   },
   mailRight: {
     width: '20%',
     component: 'span',
+    flexShrink: 1,
   },
   subjectLine: {
     fontSize: '10pt',
@@ -40,6 +43,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '8pt',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+  },
+  avatar: {
+    paddingRight: '5px',
   },
 }));
 
@@ -124,6 +130,9 @@ export default function canvas(mailbox, setEmail) {
   const mailItem = (email) => {
     return (
       <Box className={classes.root}>
+        <Box className={classes.avatar}>
+          <Avatar>{email.from.name[0]}</Avatar>
+        </Box>
         <Box className={classes.mailLeft}>
           <Typography className={classes.fromName}>
             {email.from.name}
@@ -138,7 +147,10 @@ export default function canvas(mailbox, setEmail) {
           </Typography>
         </Box>
         <Box className={classes.mailRight}>
-          {formatDate(email.sent)}
+          <Box>
+            {formatDate(email.sent)}
+          </Box>
+          <StarBorderIcon/>
         </Box>
       </Box>
     );
@@ -172,9 +184,6 @@ export default function canvas(mailbox, setEmail) {
 
   return (
     <Box>
-      <Typography>
-        {mailbox}
-      </Typography>
       <Divider/>
       {getMail(setMail, mailbox)}
       {generateMail(setEmail)}
