@@ -1,6 +1,6 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import {List, ListItem} from '@material-ui/core';
+import {Box, List, ListItem} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -15,6 +15,25 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     border: 1,
     paddingLeft: theme.spacing(4),
+  },
+  mailLeft: {
+    width: '80%',
+    paddingRight: '10px',
+    component: 'span',
+  },
+  mailRight: {
+    width: '20%',
+    component: 'span',
+  },
+  subjectLine: {
+    fontSize: '10pt',
+    textOverflow: 'ellipsis',
+  },
+  fromName: {
+    fontSize: '11pt',
+  },
+  emailContent: {
+    fontSize: '8pt',
   },
 }));
 
@@ -88,30 +107,33 @@ function formatDate(time) {
 }
 
 /**
- *
- * @param {obj} email
- * @return {JSX}
- */
-function mailItem(email) {
-  return (
-    <div>
-      {email.from.name}
-      {'; '}
-      {email.subject}
-      {'; '}
-      {formatDate(email.sent)}
-      <Divider/>
-    </div>
-  );
-}
-
-/**
  * @param {string} mailbox
  * @return {JSX}
  */
 export default function canvas(mailbox) {
   const classes = useStyles();
   const [mail, setMail] = React.useState(undefined);
+
+  const mailItem = (email) => {
+    return (
+      <Box className={classes.root}>
+        <Box className={classes.mailLeft}>
+          <Typography className={classes.fromName}>
+            {email.from.name}
+          </Typography>
+          <Typography className={classes.subjectLine}>
+            {email.subject}
+          </Typography>
+          <Typography className={classes.emailContent}>
+            {'Content of email stand in'}
+          </Typography>
+        </Box>
+        <Box className={classes.mailRight}>
+          {formatDate(email.sent)}
+        </Box>
+      </Box>
+    );
+  };
 
   const generateMail = () => {
     let splitMail = mail;
