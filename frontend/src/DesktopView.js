@@ -115,6 +115,9 @@ const useStyles = makeStyles((theme) => ({
   searchBarHidden: {
     display: 'none',
   },
+  logo: {
+    width: '18ch',
+  },
 }));
 
 /**
@@ -137,7 +140,7 @@ function DesktopView() {
         className={classes.appBar}
         width={100}>
         <Toolbar className={classes.toolbar}>
-          <Typography>
+          <Typography className={classes.logo}>
             CSE183 Mail
           </Typography>
           {searchBar(false)}
