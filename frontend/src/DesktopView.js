@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-// import clsx from 'clsx';
+import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -23,6 +23,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import searchBar from './SearchBar.js';
 import taskbar from './taskbar.js';
 import canvas from './Canvas.js';
+import mailViewer from './MailViewer';
 
 const drawerWidth = 240;
 
@@ -85,15 +86,21 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
   },
   container: {
-    width: '80ch',
     paddingTop: theme.spacing(1),
     paddingBottom: theme.spacing(4),
+    display: 'flex',
+  },
+  canvas: {
+    width: '80ch',
   },
   fixedHeight: {
     height: 240,
   },
-  searchBarHidden: {
+  Hidden: {
     display: 'none',
+  },
+  mailViewer: {
+    width: '100%',
   },
   logo: {
     width: '18ch',
@@ -108,6 +115,7 @@ const useStyles = makeStyles((theme) => ({
 function DesktopView() {
   const classes = useStyles();
   const [mailbox, setMailbox] = React.useState('Inbox');
+  const [email, setEmail] = React.useState(false);
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
@@ -143,7 +151,14 @@ function DesktopView() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          {canvas(mailbox)}
+          <Container className={classes.canvas}>
+            {canvas(mailbox, setEmail)}
+          </Container>
+          <Container
+            className={clsx(classes.mailViewer, !email && classes.Hidden)}
+          >
+            {mailViewer(email, setEmail)}
+          </Container>
         </Container>
       </main>
     </div>

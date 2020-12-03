@@ -114,9 +114,10 @@ function formatDate(time) {
 
 /**
  * @param {string} mailbox
+ * @param {function} setEmail
  * @return {JSX}
  */
-export default function canvas(mailbox) {
+export default function canvas(mailbox, setEmail) {
   const classes = useStyles();
   const [mail, setMail] = React.useState(undefined);
 
@@ -132,7 +133,6 @@ export default function canvas(mailbox) {
           </Typography>
           <Typography
             className={classes.emailContent}
-            textOverflow='ellipsis'
           >
             {email.content}
           </Typography>
@@ -144,7 +144,11 @@ export default function canvas(mailbox) {
     );
   };
 
-  const generateMail = () => {
+  const emailToViewer = (inEmail) => {
+    setEmail(inEmail);
+  };
+
+  const generateMail = (setEmail) => {
     let splitMail = mail;
     if (splitMail == undefined) {
       return 'Error: No mail found';
@@ -156,6 +160,8 @@ export default function canvas(mailbox) {
           <ListItem
             key={ind}
             className={classes.listitem}
+            button
+            onClick={()=>emailToViewer(item)}
           >
             {mailItem(item)}
           </ListItem>
@@ -171,7 +177,7 @@ export default function canvas(mailbox) {
       </Typography>
       <Divider/>
       {getMail(setMail, mailbox)}
-      {generateMail()}
+      {generateMail(setEmail)}
     </Box>
   );
 }
