@@ -29,6 +29,14 @@ exports.getMailbox = async (req, res) => {
   }
 };
 
+exports.getMailboxes = async (req, res) => {
+  const mailboxes = await db.allMailboxes();
+  if (mailboxes) {
+    res.status(200).json(mailboxes);
+  }
+  res.status(500).send('No Mailboxes found');
+}
+
 /**
  * Sends a specific email based on UUID
  * @param {object} req

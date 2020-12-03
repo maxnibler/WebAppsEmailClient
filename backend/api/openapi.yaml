@@ -110,6 +110,25 @@ paths:
         schema:
           type: string
         style: form
+  
+  /v0/mailboxes:
+    get:
+      description: gets a list of all maiboxes
+      responses:
+        200:
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MailboxList'
+        500:
+          description: Internal Server Error
+        default:
+          description: Unexpected Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 
 components:
   schemas:
@@ -172,3 +191,8 @@ components:
           type: string
         content:
           type: string
+
+    MailboxList:
+      type: array
+      items:
+        type: string

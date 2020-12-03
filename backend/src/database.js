@@ -43,29 +43,29 @@ exports.selectMailbox = async (box) => {
   const {rows} = await pool.query(query);
   const MailBox = [];
   for (const row of rows) {
-    MailBox.push(row.mail);
+    MailBox.push(row.email);
   }
   return MailBox;
 };
 
 exports.selectMail = async (id) => {
-  const select = 'SELECT email from mail WHERE id = $1';
+  const select = 'SELECT email FROM mail WHERE id = $1';
   const query = {
     text: select,
     values: [id],
   };
   const {rows} = await pool.query(query);
-  return rows.length == 1? rows[0].mail : undefined;
+  return rows.length == 1? rows[0].email : undefined;
 };
 
 getFrom = async () => {
-  const select = 'SELECT DISTINCT email from mail WHERE mailbox = $1';
+  const select = 'SELECT DISTINCT email FROM mail WHERE mailbox = $1';
   const query = {
     text: select,
     values: ['sent'],
   };
   const {rows} = await pool.query(query);
-  return rows[0].mail.from;
+  return rows[0].email.from;
 };
 
 exports.insertMail = async (mail) => {

@@ -1,7 +1,6 @@
 /**
  * Code borrowed from material-ui.com
  */
-
 import React from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
@@ -24,27 +23,6 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import searchBar from './SearchBar.js';
 import canvas from './Canvas.js';
 import taskbar from './taskbar.js';
-
-/**
- * Simple component with no state.
- *
- * @param {function} setDummy set the dummy state
- *
-function getDummy(setDummy) {
-  fetch('http://localhost:3010/v0/dummy')
-      .then((response) => {
-        if (!response.ok) {
-          throw response;
-        }
-        return response.json();
-      })
-      .then((json) => {
-        setDummy(json.message);
-      })
-      .catch((error) => {
-        setDummy(error.toString());
-      });
-}*/
 
 const drawerWidth = 240;
 

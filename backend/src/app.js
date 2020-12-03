@@ -29,6 +29,7 @@ app.use(
 
 app.get('/v0/dummy', dummy.get);
 // Your routes go here
+app.get('/v0/mailboxes', mail.getMailboxes);
 app.get('/v0/mail', mail.getMailbox);
 app.get('/v0/mail/:id', mail.getEmail);
 app.post('/v0/mail/', mail.postEmail);
