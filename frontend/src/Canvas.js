@@ -44,12 +44,40 @@ function getMail(setMail, mailbox) {
  * @return {string}
  */
 function formatDate(time) {
+  const months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
   const date = new Date();
   const inDate = new Date(time);
   let outDate;
   outDate = time;
-  if (date > inDate) {
-    // outDate = inDate.getMonth();
+  if (date.getMonth() == inDate.getMonth() &&
+    date.getDate() == inDate.getDate()) {
+    let min = inDate.getMinutes();
+    let hour = inDate.getHours();
+    let ampm = ' am';
+    min = ('0'+min).slice(-2);
+    if (hour >= 12) {
+      hour -= 12;
+      ampm = ' pm';
+    }
+    if (hour == 0) {
+      hour = 12;
+    }
+    outDate = hour+':'+min+ampm;
+  } else if (date > inDate) {
+    outDate = months[inDate.getMonth()]+' '+inDate.getDate();
   } else {
     outDate = time;
   }
