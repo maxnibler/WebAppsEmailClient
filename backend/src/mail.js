@@ -4,6 +4,26 @@ const UUID = new RegExp(['^[0-9a-f]{8}-[0-9a-f]{4}-[0-5]',
   '[0-9a-f]{12}$/i']);
 
 /**
+ * 
+ * @param {array} inbox
+ * @return {array} outbox
+ */
+function sortMail(inbox) {
+  let next;
+  for (let i = 0; i < inbox.length; i++) {
+    next = inbox[i];
+    for (let j = i; j < inbox.length; j++) {
+      if (inbox[i].sent < inbox[j].sent) {
+        inbox[i] = inbox[j];
+        inbox[j] = next;
+        next = inbox[i];
+      }
+    }
+  }
+  return inbox;
+}
+
+/**
  * Sends a specified mailbox
  * @param {object} req
  * @param {object} res
@@ -16,6 +36,7 @@ exports.getMailbox = async (req, res) => {
   if (mailbox) {
     if (mailboxes.includes(mailbox)) {
       box = await db.selectMailbox(mailbox);
+      box = sortMail(box);
       res.status(200).json(box);
     } else {
       res.status(404).send('Mailbox:"'+mailbox+'" not found.');

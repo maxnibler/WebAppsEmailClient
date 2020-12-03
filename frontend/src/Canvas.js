@@ -39,6 +39,24 @@ function getMail(setMail, mailbox) {
 }
 
 /**
+ * Function to format the date of the email
+ * @param {string} time the time time stamp of the email
+ * @return {string}
+ */
+function formatDate(time) {
+  const date = new Date();
+  const inDate = new Date(time);
+  let outDate;
+  outDate = time;
+  if (date > inDate) {
+    // outDate = inDate.getMonth();
+  } else {
+    outDate = time;
+  }
+  return outDate;
+}
+
+/**
  *
  * @param {obj} email
  * @return {JSX}
@@ -47,7 +65,8 @@ function mailItem(email) {
   return (
     <div>
       {email.subject}
-      {email.sent}
+      {' '}
+      {formatDate(email.sent)}
       <Divider/>
     </div>
   );
@@ -62,8 +81,8 @@ export default function canvas(mailbox) {
   const [mail, setMail] = React.useState(undefined);
 
   const generateMail = () => {
-    const splitMail = mail;
-    splitMail.splice(0, 50);
+    let splitMail = mail;
+    splitMail = splitMail.splice(0, 50);
     return (
       <List className={classes.list}>
         <Divider/>

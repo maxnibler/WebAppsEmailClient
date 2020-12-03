@@ -35,7 +35,7 @@ getId = async (mail) => {
 };
 
 exports.selectMailbox = async (box) => {
-  const select = 'SELECT email FROM mail WHERE mailbox = $1';
+  const select = 'SELECT email FROM mail WHERE mailbox ~* $1';
   const query = {
     text: select,
     values: [box],
@@ -49,7 +49,7 @@ exports.selectMailbox = async (box) => {
 };
 
 exports.selectMail = async (id) => {
-  const select = 'SELECT email FROM mail WHERE id = $1';
+  const select = 'SELECT email FROM mail WHERE id ~ $1';
   const query = {
     text: select,
     values: [id],
@@ -59,7 +59,7 @@ exports.selectMail = async (id) => {
 };
 
 getFrom = async () => {
-  const select = 'SELECT DISTINCT email FROM mail WHERE mailbox = $1';
+  const select = 'SELECT DISTINCT email FROM mail WHERE mailbox ~* $1';
   const query = {
     text: select,
     values: ['sent'],
@@ -87,7 +87,7 @@ exports.insertMail = async (mail) => {
 };
 
 exports.getMailbox = async (id) => {
-  const select = 'SELECT mailbox FROM mail WHERE id = $1';
+  const select = 'SELECT mailbox FROM mail WHERE id ~ $1';
   const query = {
     text: select,
     values: [id],
@@ -97,7 +97,7 @@ exports.getMailbox = async (id) => {
 };
 
 exports.changeMailbox = async (id, mailbox) => {
-  const update = 'UPDATE mail SET mailbox = $1 WHERE id = $2';
+  const update = 'UPDATE mail SET mailbox = $1 WHERE id ~ $2';
   const query = {
     text: update,
     values: [mailbox, id],
