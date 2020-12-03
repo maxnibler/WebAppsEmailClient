@@ -156,7 +156,7 @@ components:
         mail:
           type: array
           items:
-            $ref: '#/components/schemas/Mail'
+            $ref: '#/components/schemas/MailboxList'
 
     PostMail:
       type: object
