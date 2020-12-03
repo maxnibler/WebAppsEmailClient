@@ -7,24 +7,24 @@ import {makeStyles} from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    width: '100%',
   },
   list: {
     width: '100%',
   },
   listitem: {
     width: '100%',
-    border: 1,
   },
   mailLeft: {
     float: 'left',
-    width: '35ch',
+    width: '80%',
     paddingRight: '10px',
     component: 'span',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
   },
   mailRight: {
-    width: '10ch',
+    width: '20%',
     component: 'span',
   },
   subjectLine: {
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   emailContent: {
     fontSize: '8pt',
     overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
 }));
 
@@ -133,7 +134,7 @@ export default function canvas(mailbox) {
             className={classes.emailContent}
             textOverflow='ellipsis'
           >
-            {'Content of email stand in'}
+            {email.content}
           </Typography>
         </Box>
         <Box className={classes.mailRight}>
@@ -151,7 +152,6 @@ export default function canvas(mailbox) {
     splitMail = splitMail.splice(0, 50);
     return (
       <List className={classes.list}>
-        <Divider/>
         {splitMail.map((item, ind) => (
           <ListItem
             key={ind}
@@ -165,12 +165,13 @@ export default function canvas(mailbox) {
   };
 
   return (
-    <div>
+    <Box>
       <Typography>
         {mailbox}
       </Typography>
+      <Divider/>
       {getMail(setMail, mailbox)}
       {generateMail()}
-    </div>
+    </Box>
   );
 }
