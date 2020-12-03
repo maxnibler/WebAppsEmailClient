@@ -134,6 +134,9 @@ function MobileView() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [mailbox, setMailbox] = React.useState('Inbox');
+  const handleMailboxChange = (newMailbox) => {
+    setMailbox(newMailbox);
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -181,7 +184,7 @@ function MobileView() {
           </Typography>
         </div>
         <Divider />
-        {taskbar(mailbox, setMailbox)}
+        {taskbar(mailbox, handleMailboxChange)}
       </Drawer>
       <main className={classes.content} onClick={handleDrawerClose}>
         <div className={classes.appBarSpacer} />
