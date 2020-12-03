@@ -49,6 +49,13 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
       setOpen(false);
     }
   };
+  const logos = {
+    Inbox: <InboxIcon />,
+    Starred: <StarIcon />,
+    Sent: <InputIcon />,
+    Trash: <DeleteOutlineIcon />,
+    Drafts: <DraftsIcon />,
+  };
   return (
     <div className={classes.drawerContainer}>
       <List>
@@ -56,75 +63,36 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
           button
           onClick={() => setNewMailbox('Inbox')}
           className={
-            mailbox=='Inbox'?
+            mailbox == 'Inbox' ?
               classes.currentMailbox :
               classes.normailMailbox
           }
         >
           <ListItemIcon>
-            <InboxIcon />
+            {logos['Inbox']}
           </ListItemIcon>
           <ListItemText primary={'Inbox'} />
         </ListItem>
       </List>
       <Divider />
       <List>
-        <ListItem
-          button
-          onClick={() => setNewMailbox('Starred')}
-          className={
-            mailbox=='Starred'?
-              classes.currentMailbox :
-              classes.normailMailbox
-          }
-        >
-          <ListItemIcon>
-            <StarIcon/>
-          </ListItemIcon>
-          <ListItemText primary={'Starred'} />
-        </ListItem>
-        <ListItem
-          button
-          onClick={() => setNewMailbox('Sent')}
-          className={
-            mailbox=='Sent'?
-              classes.currentMailbox :
-              classes.normailMailbox
-          }
-        >
-          <ListItemIcon>
-            <InputIcon/>
-          </ListItemIcon>
-          <ListItemText primary={'Sent'} />
-        </ListItem>
-        <ListItem
-          button
-          onClick={() => setNewMailbox('Drafts')}
-          className={
-            mailbox=='Drafts'?
-              classes.currentMailbox :
-              classes.normailMailbox
-          }
-        >
-          <ListItemIcon>
-            <DraftsIcon/>
-          </ListItemIcon>
-          <ListItemText primary={'Drafts'} />
-        </ListItem>
-        <ListItem
-          button
-          onClick={() => setNewMailbox('Trash')}
-          className={
-            mailbox=='Trash'?
-              classes.currentMailbox :
-              classes.normailMailbox
-          }
-        >
-          <ListItemIcon>
-            <DeleteOutlineIcon/>
-          </ListItemIcon>
-          <ListItemText primary={'Trash'} />
-        </ListItem>
+        {['Starred', 'Sent', 'Drafts', 'Trash'].map((text, index) => (
+          <ListItem
+            button
+            key={text}
+            onClick={() => setNewMailbox(text)}
+            className={
+              mailbox == text ?
+                classes.currentMailbox :
+                classes.normailMailbox
+            }
+          >
+            <ListItemIcon>
+              {logos[text]}
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
       </List>
       <Divider />
       <List>
@@ -134,13 +102,13 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
             key={text}
             onClick={() => setNewMailbox(text)}
             className={
-              mailbox==text?
+              mailbox == text ?
                 classes.currentMailbox :
                 classes.normailMailbox
             }
           >
             <ListItemIcon>
-              <ArrowForwardIcon/>
+              <ArrowForwardIcon />
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
