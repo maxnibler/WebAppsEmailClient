@@ -169,10 +169,11 @@ export default function canvas(mailbox, setEmail) {
 
   const generateMail = (setEmail) => {
     let splitMail = mail;
-    if (splitMail == undefined) {
+    if (Array.isArray(splitMail)) {
+      splitMail = splitMail.splice(0, 50);
+    } else {
       return 'Error: No mail found';
     }
-    splitMail = splitMail.splice(0, 50);
     return (
       <List className={classes.list}>
         {splitMail.map((item, ind) => (

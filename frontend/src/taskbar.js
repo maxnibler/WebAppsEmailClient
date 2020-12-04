@@ -13,6 +13,26 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import AddIcon from '@material-ui/icons/Add';
 import SettingsIcon from '@material-ui/icons/Settings';
 
+/**
+ * Get List of mailboxes
+ * @param {function} setMailboxes
+ */
+function getMailboxes(setMailboxes) {
+  fetch('http://172.16.0.18:3010/v0/mailboxes')
+      .then((response) => {
+        if (!response.ok) {
+          throw response;
+        }
+        return response.json();
+      })
+      .then((json) => {
+        setMailboxes(json.list);
+      })
+      .catch((error) => {
+        setMailboxes(error.toString());
+      });
+}
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -29,10 +49,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
+ * @param {obj} mailboxes
  * @return {Array}
  */
-function getOtherMailboxes() {
-  return ['Work', 'School', 'Family'];
+function getOtherMailboxes(mailboxes) {
+  return mailboxes;
 }
 
 /**
@@ -43,6 +64,16 @@ function getOtherMailboxes() {
  */
 export default function taskbar(mailbox, setMailbox, setOpen) {
   const classes = useStyles();
+  const [mailboxes, setMailboxes] = React.
+      useState(['School', 'Work', 'Sent', 'Trash', 'Inbox']);
+  const updateMailboxes = (newList) => {
+    if (JSON.stringify(newList) != JSON.stringify(mailboxes)) {
+      setMailboxes(newList);
+    } else {
+      return;
+    }
+  };
+  getMailboxes(updateMailboxes);
   const setNewMailbox = (newMailbox) => {
     setMailbox(newMailbox);
     if (setOpen) {
@@ -96,7 +127,7 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
       </List>
       <Divider />
       <List>
-        {getOtherMailboxes().map((text, index) => (
+        {getOtherMailboxes(mailboxes).map((text, index) => (
           <ListItem
             button
             key={text}
