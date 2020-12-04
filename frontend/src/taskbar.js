@@ -53,7 +53,14 @@ const useStyles = makeStyles((theme) => ({
  * @return {Array}
  */
 function getOtherMailboxes(mailboxes) {
-  return mailboxes;
+  const set = ['Inbox', 'Starred', 'Sent', 'Drafts', 'Trash'];
+  const boxes = [];
+  for (let i = 0; i < mailboxes.length; i++) {
+    if (!set.includes(mailboxes[i])) {
+      boxes.push(mailboxes[i]);
+    }
+  }
+  return boxes;
 }
 
 /**
