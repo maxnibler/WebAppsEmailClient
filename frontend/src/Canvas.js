@@ -20,15 +20,12 @@ const useStyles = makeStyles((theme) => ({
     float: 'left',
     width: '80%',
     paddingRight: '10px',
-    component: 'span',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
-    flex: 1,
   },
   mailRight: {
     width: '20%',
-    component: 'span',
-    flexShrink: 1,
+    minWidth: '45px',
   },
   subjectLine: {
     fontSize: '10pt',
@@ -46,6 +43,14 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     paddingRight: '5px',
+  },
+  date: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+  },
+  star: {
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
 }));
 
@@ -147,10 +152,12 @@ export default function canvas(mailbox, setEmail) {
           </Typography>
         </Box>
         <Box className={classes.mailRight}>
-          <Box>
+          <Box className={classes.date}>
             {formatDate(email.sent)}
           </Box>
-          <StarBorderIcon/>
+          <Box className={classes.star}>
+            <StarBorderIcon/>
+          </Box>
         </Box>
       </Box>
     );

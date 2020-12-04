@@ -26,6 +26,7 @@ import canvas from './Canvas.js';
 import mailViewer from './MailViewer';
 
 const drawerWidth = 240;
+const canvasWidth = '90ch';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,9 +82,6 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
-    flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
   },
   container: {
     paddingTop: theme.spacing(1),
@@ -91,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   canvas: {
-    width: '80ch',
+    width: canvasWidth,
   },
   fixedHeight: {
     height: 240,
@@ -100,10 +98,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'none',
   },
   mailViewer: {
-    width: '100%',
+    width: 'calc(100%-${canvasWidth}',
   },
   logo: {
-    width: '18ch',
+    width: '21ch',
   },
 }));
 
@@ -126,7 +124,7 @@ function DesktopView() {
         width={100}>
         <Toolbar className={classes.toolbar}>
           <Typography className={classes.logo}>
-            CSE183 Mail
+            CSE183 Mail - {mailbox}
           </Typography>
           {searchBar(false)}
           <IconButton color="inherit">

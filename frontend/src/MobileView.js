@@ -87,14 +87,13 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
-    flexGrow: 1,
     height: '100vh',
     overflow: 'auto',
   },
   container: {
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(4),
-    width: '100%',
+    width: '45ch',
   },
   fixedHeight: {
     height: 240,
@@ -167,7 +166,7 @@ function MobileView() {
       </Drawer>
       <main className={classes.content} onClick={handleDrawerClose}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
+        <Container className={classes.container}>
           <Typography>
             {mailbox}
           </Typography>
