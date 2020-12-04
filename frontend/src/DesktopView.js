@@ -32,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
   toolbarHeader: {
     display: 'flex',
     alignItems: 'center',
@@ -42,20 +39,16 @@ const useStyles = makeStyles((theme) => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  toolbar: {
+    display: 'flex',
+    flexWrap: 'nowrap',
+  },
   appBar: {
     width: '100%',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
     }),
   },
   menuButton: {
@@ -101,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
     width: 'calc(100%-${canvasWidth}',
   },
   logo: {
-    width: '21ch',
+    flexGrow: 1,
   },
 }));
 
@@ -114,7 +107,6 @@ function DesktopView() {
   const classes = useStyles();
   const [mailbox, setMailbox] = React.useState('Inbox');
   const [email, setEmail] = React.useState(false);
-  // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
     <div className={classes.root}>

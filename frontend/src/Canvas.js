@@ -18,14 +18,14 @@ const useStyles = makeStyles((theme) => ({
   },
   mailLeft: {
     float: 'left',
-    width: '80%',
+    width: '78%',
     paddingRight: '10px',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
   },
   mailRight: {
-    width: '20%',
-    minWidth: '45px',
+    width: '22%',
+    minWidth: '48px',
   },
   subjectLine: {
     fontSize: '10pt',
