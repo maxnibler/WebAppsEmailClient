@@ -62,17 +62,29 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * Returns the correct star icon
- * @param {boolean} isStarred
+ * @param {obj} mail
+ * @param {function} setEmail
  * @return {JSX}
  */
-function starred(isStarred) {
-  if (isStarred) {
+function starred(mail, setEmail) {
+  const setStarred = (s) => {
+    mail.starred = s;
+    setEmail(mail);
+  };
+
+  if (mail.starred) {
     return (
-      <StarIcon flexShrink={1}/>
+      <StarIcon
+        flexShrink={1}
+        onClick={() => setStarred(false)}
+      />
     );
   } else {
     return (
-      <StarBorderIcon flexShrink={1}/>
+      <StarBorderIcon
+        flexShrink={1}
+        onClick={() => setStarred(true)}
+      />
     );
   }
 }
@@ -121,7 +133,7 @@ function mailViewer(email, setEmail, mobile) {
           <Box width='100%'>
           </Box>
         </Box>
-        {email? starred(email.starred) : <StarBorderIcon flexShrink={1}/>}
+        {email? starred(email, setEmail) : <StarBorderIcon flexShrink={1}/>}
       </Box>
       <Box className={classes.bottombar}>
         <Box className={classes.avatar}>
