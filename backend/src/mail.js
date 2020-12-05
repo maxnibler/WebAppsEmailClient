@@ -36,6 +36,9 @@ exports.getMailbox = async (req, res) => {
   if (mailbox) {
     if (mailboxes.includes(mailbox)) {
       box = await db.selectMailbox(mailbox);
+      for (let i = 0; i < box.length; i++) {
+        box[i].mailbox = mailbox;
+      }
       box = sortMail(box);
       res.status(200).json(box);
     } else {
@@ -44,6 +47,9 @@ exports.getMailbox = async (req, res) => {
   } else {
     for (let i = 0; i < mailboxes.length; i++) {
       box = await db.selectMailbox(mailboxes[i]);
+      for (let j = 0; j < box.length; j++) {
+        box[j].mailbox = mailboxes[i];
+      }
       retBoxes.push({name: mailboxes[i], mailbox: box});
     }
     res.status(200).json(retBoxes);

@@ -191,6 +191,10 @@ components:
           type: string
         content:
           type: string
+        starred:
+          type: boolean
+        mailbox:
+          type: string
 
     MailboxList:
       type: object

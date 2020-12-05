@@ -8,6 +8,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import MoveToInboxIcon from '@material-ui/icons/MoveToInbox';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
+import StarIcon from '@material-ui/icons/Star';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,6 +61,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 /**
+ * Returns the correct star icon
+ * @param {boolean} isStarred
+ * @return {JSX}
+ */
+function starred(isStarred) {
+  if (isStarred) {
+    return (
+      <StarIcon flexShrink={1}/>
+    );
+  } else {
+    return (
+      <StarBorderIcon flexShrink={1}/>
+    );
+  }
+}
+
+/**
  * The viewer for an email
  * @param {obj} email The email to display
  * @param {function} setEmail The set state function for email
@@ -98,12 +116,12 @@ function mailViewer(email, setEmail, mobile) {
       <Box className={classes.midbar}>
         <Box width='100%' display='flex'>
           <Box className={classes.indicator}>
-            Mailbox
+            {email? email.mailbox : 'Mailbox'}
           </Box>
           <Box width='100%'>
           </Box>
         </Box>
-        <StarBorderIcon flexShrink={1}/>
+        {email? starred(email.starred) : <StarBorderIcon flexShrink={1}/>}
       </Box>
       <Box className={classes.bottombar}>
         <Box className={classes.avatar}>
