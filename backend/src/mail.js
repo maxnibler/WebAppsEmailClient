@@ -37,6 +37,7 @@ exports.getMailbox = async (req, res) => {
     if (mailboxes.includes(mailbox)) {
       box = await db.selectMailbox(mailbox);
       for (let i = 0; i < box.length; i++) {
+        box[i].id = await db.getId(box[i]);
         box[i].mailbox = mailbox;
       }
       box = sortMail(box);

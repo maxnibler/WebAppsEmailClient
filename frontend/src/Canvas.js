@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import {Box, List, ListItem, Avatar} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import {makeStyles} from '@material-ui/core/styles';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
+import starred from './starred';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -138,7 +138,11 @@ export default function canvas(mailbox, setEmail) {
         <Box className={classes.avatar}>
           <Avatar>{email.from.name[0]}</Avatar>
         </Box>
-        <Box className={classes.mailLeft}>
+        <Box
+          className={classes.mailLeft}
+          button
+          onClick={()=>emailToViewer(email)}
+        >
           <Typography className={classes.fromName}>
             {email.from.name}
           </Typography>
@@ -151,12 +155,14 @@ export default function canvas(mailbox, setEmail) {
             {email.content}
           </Typography>
         </Box>
-        <Box className={classes.mailRight}>
+        <Box
+          className={classes.mailRight}
+        >
           <Box className={classes.date}>
             {formatDate(email.sent)}
           </Box>
           <Box className={classes.star}>
-            <StarBorderIcon/>
+            {starred(email, setEmail)}
           </Box>
         </Box>
       </Box>
@@ -180,8 +186,6 @@ export default function canvas(mailbox, setEmail) {
           <ListItem
             key={ind}
             className={classes.listitem}
-            button
-            onClick={()=>emailToViewer(item)}
           >
             {mailItem(item)}
           </ListItem>

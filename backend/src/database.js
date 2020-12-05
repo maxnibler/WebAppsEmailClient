@@ -24,7 +24,7 @@ exports.allMailboxes = async () => {
   return Mailboxes;
 };
 
-getId = async (mail) => {
+exports.getId = async (mail) => {
   const select = 'SELECT id from mail WHERE email = $1';
   const query = {
     text: select,

@@ -8,7 +8,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import MoveToInboxIcon from '@material-ui/icons/MoveToInbox';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
-import StarIcon from '@material-ui/icons/Star';
+import starred from './starred';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,34 +60,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/**
- * Returns the correct star icon
- * @param {obj} mail
- * @param {function} setEmail
- * @return {JSX}
- */
-function starred(mail, setEmail) {
-  const setStarred = (s) => {
-    mail.starred = s;
-    setEmail(mail);
-  };
-
-  if (mail.starred) {
-    return (
-      <StarIcon
-        flexShrink={1}
-        onClick={() => setStarred(false)}
-      />
-    );
-  } else {
-    return (
-      <StarBorderIcon
-        flexShrink={1}
-        onClick={() => setStarred(true)}
-      />
-    );
-  }
-}
 
 /**
  * The viewer for an email
