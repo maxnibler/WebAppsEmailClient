@@ -120,11 +120,13 @@ exports.changeStarred = async (id, starred) => {
 }
 
 exports.getStarred = async () => {
-  const Select = 'SELECT email from mail WHERE email->starred=true';
+  const Select = 'SELECT email FROM mail WHERE CAST (email -> $1 AS BOOLEAN) = true';
   const query = {
     text: Select,
+    values: ["starred"],
   };
-  await pool.query(query);
+  const {rows} = await pool.query(query);
+  return rows;
 }
 
 console.log(`Connected to database '${process.env.POSTGRES_DB}'`);

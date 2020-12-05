@@ -52,6 +52,9 @@ exports.getMailbox = async (req, res) => {
     if (mailboxes.includes(mailbox)) {
       box = await parseMailbox(mailbox);
       res.status(200).json(box);
+    } else if (mailbox == 'Starred') {
+      box = await parseMailbox(mailbox);
+      res.status(200).json(box);
     } else {
       res.status(404).send('Mailbox:"'+mailbox+'" not found.');
     }
