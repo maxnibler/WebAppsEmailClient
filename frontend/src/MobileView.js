@@ -23,6 +23,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import searchBar from './SearchBar.js';
 import canvas from './Canvas.js';
 import taskbar from './taskbar.js';
+import mailViewer from './MailViewer';
 
 const drawerWidth = 240;
 
@@ -112,6 +113,7 @@ function MobileView() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [mailbox, setMailbox] = React.useState('Inbox');
+  const [email, setEmail] = React.useState(false);
   const handleMailboxChange = (newMailbox) => {
     setMailbox(newMailbox);
   };
@@ -123,7 +125,7 @@ function MobileView() {
   };
   // const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-  return (
+  const mainView = (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="absolute"
@@ -170,11 +172,23 @@ function MobileView() {
           <Typography>
             {mailbox}
           </Typography>
-          {canvas(mailbox)}
+          {canvas(mailbox, setEmail)}
         </Container>
       </main>
     </div>
   );
+
+  const emailView = (
+    <div className={classes.root}>
+      {mailViewer(email, setEmail, true)}
+    </div>
+  );
+
+  if (email) {
+    return emailView;
+  } else {
+    return mainView;
+  }
 }
 
 export default MobileView;

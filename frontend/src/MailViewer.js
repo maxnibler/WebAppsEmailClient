@@ -9,6 +9,7 @@ import MoveToInboxIcon from '@material-ui/icons/MoveToInbox';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import starred from './starred';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,7 +76,7 @@ function mailViewer(email, setEmail, mobile) {
     if (mobile) {
       return (
         <Button onClick={() => setEmail(false)}>
-          Close
+          <ArrowBackIosIcon/>
         </Button>
       );
     }

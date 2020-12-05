@@ -27,6 +27,9 @@ const parseMailbox = async (name) => {
   let box;
   if (name == 'Starred') {
     box = await db.getStarred();
+    for (let i = 0; i < box.length; i++) {
+      box[i] = box[i].email;
+    }
   } else {
     box = await db.selectMailbox(name);
   }
