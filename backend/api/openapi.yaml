@@ -229,6 +229,8 @@ components:
           type: boolean
         mailbox:
           type: string
+        read:
+          type: boolean
 
     MailboxList:
       type: object

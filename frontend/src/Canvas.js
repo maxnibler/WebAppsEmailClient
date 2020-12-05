@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import {Box, List, ListItem, Avatar} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
@@ -32,9 +33,20 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: 'ellipsis',
     overflow: 'hidden',
   },
+  subjectLineB: {
+    fontSize: '10pt',
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    fontWeight: 600,
+  },
   fromName: {
     fontSize: '11pt',
     overflow: 'hidden',
+  },
+  fromNameB: {
+    fontSize: '11pt',
+    overflow: 'hidden',
+    fontWeight: 750,
   },
   emailContent: {
     fontSize: '8pt',
@@ -143,10 +155,14 @@ export default function canvas(mailbox, setEmail) {
           button
           onClick={()=>emailToViewer(email)}
         >
-          <Typography className={classes.fromName}>
+          <Typography
+            className={clsx(classes.fromName, !email.read && classes.fromNameB)}
+          >
             {email.from.name}
           </Typography>
-          <Typography className={classes.subjectLine}>
+          <Typography className={
+            clsx(classes.subjectLine, !email.read && classes.subjectLineB)
+          }>
             {email.subject}
           </Typography>
           <Typography
@@ -171,6 +187,7 @@ export default function canvas(mailbox, setEmail) {
 
   const emailToViewer = (inEmail) => {
     setEmail(inEmail);
+    setRead(inEmail.id);
   };
 
   const generateMail = (setEmail) => {
