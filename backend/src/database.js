@@ -31,6 +31,9 @@ exports.getId = async (mail) => {
     values: [mail],
   };
   const {rows} = await pool.query(query);
+  if (rows[0] == undefined) {
+    return;
+  }
   return rows[0].id;
 };
 
@@ -49,7 +52,7 @@ exports.selectMailbox = async (box) => {
 };
 
 exports.selectMail = async (id) => {
-  const select = 'SELECT email FROM mail WHERE id ~ $1';
+  const select = 'SELECT email FROM mail WHERE id = $1';
   const query = {
     text: select,
     values: [id],
@@ -87,7 +90,7 @@ exports.insertMail = async (mail) => {
 };
 
 exports.getMailbox = async (id) => {
-  const select = 'SELECT mailbox FROM mail WHERE id ~ $1';
+  const select = 'SELECT mailbox FROM mail WHERE id = $1';
   const query = {
     text: select,
     values: [id],
@@ -97,12 +100,31 @@ exports.getMailbox = async (id) => {
 };
 
 exports.changeMailbox = async (id, mailbox) => {
-  const update = 'UPDATE mail SET mailbox = $1 WHERE id ~ $2';
+  const update = 'UPDATE mail SET mailbox = $1 WHERE id = $2';
   const query = {
     text: update,
     values: [mailbox, id],
   };
   await pool.query(query);
 };
+
+exports.changeStarred = async (id, starred) => {
+  const mail = await this.selectMail(id);
+  mail.starred = starred;
+  const update = 'UPDATE mail SET email = $1 WHERE id = $2';
+  const query = {
+    text: update,
+    values: [mail, id],
+  };
+  await pool.query(query);
+}
+
+exports.getStarred = async () => {
+  const Select = 'SELECT email from mail WHERE email->starred=true';
+  const query = {
+    text: Select,
+  };
+  await pool.query(query);
+}
 
 console.log(`Connected to database '${process.env.POSTGRES_DB}'`);

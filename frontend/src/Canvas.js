@@ -178,7 +178,7 @@ export default function canvas(mailbox, setEmail) {
     if (Array.isArray(splitMail)) {
       splitMail = splitMail.splice(0, 50);
     } else {
-      return 'Error: No mail found';
+      return 'This mailbox is empty';
     }
     return (
       <List className={classes.list}>

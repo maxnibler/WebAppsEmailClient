@@ -105,7 +105,7 @@ function mailViewer(email, setEmail, mobile) {
           <Box width='100%'>
           </Box>
         </Box>
-        {email? starred(email, setEmail) : <StarBorderIcon flexShrink={1}/>}
+        {email? starred(email, setEmail) : <StarBorderIcon flexshrink={1}/>}
       </Box>
       <Box className={classes.bottombar}>
         <Box className={classes.avatar}>

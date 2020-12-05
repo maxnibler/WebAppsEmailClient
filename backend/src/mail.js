@@ -23,8 +23,23 @@ function sortMail(inbox) {
   return inbox;
 }
 
+const parseMailbox = async (name) => {
+  let box;
+  if (name == 'Starred') {
+    box = await db.getStarred();
+  } else {
+    box = await db.selectMailbox(name);
+  }
+  for (let i = 0; i < box.length; i++) {
+    box[i].id = await db.getId(box[i]);
+    box[i].mailbox = name;
+  }
+  box = sortMail(box);
+  return box
+}
+
 /**
- * Sends a specified mailbox
+ * Sends full mailbox(es)
  * @param {object} req
  * @param {object} res
  */
@@ -35,22 +50,14 @@ exports.getMailbox = async (req, res) => {
   let box;
   if (mailbox) {
     if (mailboxes.includes(mailbox)) {
-      box = await db.selectMailbox(mailbox);
-      for (let i = 0; i < box.length; i++) {
-        box[i].id = await db.getId(box[i]);
-        box[i].mailbox = mailbox;
-      }
-      box = sortMail(box);
+      box = await parseMailbox(mailbox);
       res.status(200).json(box);
     } else {
       res.status(404).send('Mailbox:"'+mailbox+'" not found.');
     }
   } else {
     for (let i = 0; i < mailboxes.length; i++) {
-      box = await db.selectMailbox(mailboxes[i]);
-      for (let j = 0; j < box.length; j++) {
-        box[j].mailbox = mailboxes[i];
-      }
+      box = await parseMailbox(mailboxes[i]);
       retBoxes.push({name: mailboxes[i], mailbox: box});
     }
     res.status(200).json(retBoxes);
@@ -129,3 +136,14 @@ exports.putEmail = async (req, res) => {
     res.status(204).send('Email put');
   }
 };
+
+exports.putStarred = async (req, res) => {
+  const id = req.params.id;
+  const starred = req.query.star;
+  if (typeof(starred) === 'boolean') {
+    await db.changeStarred(id, starred);
+    res.status(200).send('Starred Changed');
+  } else {
+    res.status(404).send('Not Found');
+  }
+}
