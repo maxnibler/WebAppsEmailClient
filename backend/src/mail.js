@@ -70,11 +70,37 @@ exports.getMailbox = async (req, res) => {
   }
 };
 
+const getRead = async (mailbox) => {
+  let box;
+  if (mailbox == 'Starred') {
+    box = await db.getStarred();
+    return box.length;
+  } else {
+    box = await db.selectMailbox(mailbox);
+    let count = 0;
+    for (let i = 0; i < box.length; i++) {
+      if (box[i].read == false) {
+        count++;
+      }
+    }
+    return count;
+  }
+};
+
 exports.getMailboxes = async (req, res) => {
-  const mailboxes = await db.allMailboxes();
-  const objBoxes = {'list': mailboxes};
+  const mailNames = await db.allMailboxes();
+  mailNames.push('Starred');
+  const mailboxes = [];
+  let count;
+  let pair;
+  for (let i = 0; i < mailNames.length; i++) {
+    count = await getRead(mailNames[i]);
+    pair = {name: mailNames[i], count: count};
+    mailboxes.push(pair);
+  }
   if (mailboxes) {
-    res.status(200).json(objBoxes);
+    console.log(mailboxes);
+    res.status(200).json(mailboxes);
   } else {
     res.status(500).send('No Mailboxes found');
   }
@@ -166,11 +192,3 @@ exports.setRead = async (req, res) => {
   }
 }
 
-exports.getRead = async (req, res) => {
-  const mailbox = req.query.mailbox;
-  if (mailbox) {
-    res.status(200).send({number: 100});
-  } else {
-    res.status(400).send('No mailbox specified');
-  }
-}

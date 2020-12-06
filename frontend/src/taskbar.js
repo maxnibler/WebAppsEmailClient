@@ -33,6 +33,32 @@ function getMailboxes(setMailboxes) {
       });
 }
 
+/**
+ * @param {string} mailbox
+ * @param {function} callback
+ */
+function countUnread(mailbox, callback) {
+  const url = 'http://172.16.0.18:3010/v0/read/?mailbox='+mailbox;
+  const body = {
+    method: 'GET',
+  };
+  // console.log(url);
+  fetch(url, body)
+      .then((response) => {
+        if (!response.ok) {
+          throw response;
+        }
+        return response.json();
+      })
+      .then((json) => {
+        console.log(json);
+        callback(mailbox, json.number);
+      })
+      .catch((error) => {
+        console.log(error.toString());
+      });
+}
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -73,6 +99,16 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
   const classes = useStyles();
   const [mailboxes, setMailboxes] = React.
       useState(['School', 'Work', 'Sent', 'Trash', 'Inbox']);
+  const [unread, setUnread] = React.useState({
+    'Inbox': 0,
+  });
+
+  const setUnreadCallback = (key, value) => {
+    const old = unread;
+    old[key] = value;
+    setUnread(old);
+  };
+
   const updateMailboxes = (newList) => {
     if (JSON.stringify(newList) != JSON.stringify(mailboxes)) {
       setMailboxes(newList);
@@ -80,13 +116,16 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
       return;
     }
   };
+
   getMailboxes(updateMailboxes);
+
   const setNewMailbox = (newMailbox) => {
     setMailbox(newMailbox);
     if (setOpen) {
       setOpen(false);
     }
   };
+
   const logos = {
     Inbox: <InboxIcon />,
     Starred: <StarIcon />,
@@ -94,6 +133,7 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
     Trash: <DeleteOutlineIcon />,
     Drafts: <DraftsIcon />,
   };
+
   return (
     <div className={classes.drawerContainer}>
       <List>
@@ -110,6 +150,8 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
             {logos['Inbox']}
           </ListItemIcon>
           <ListItemText primary={'Inbox'} />
+          {countUnread('Inbox', setUnreadCallback)}
+          {unread.Inbox > 0? unread.Inbox : ''}
         </ListItem>
       </List>
       <Divider />
@@ -129,6 +171,8 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
               {logos[text]}
             </ListItemIcon>
             <ListItemText primary={text} />
+            {countUnread(text, setUnreadCallback)}
+            {unread[text] > 0? unread[text] : ''}
           </ListItem>
         ))}
       </List>
@@ -149,6 +193,8 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
               <ArrowForwardIcon />
             </ListItemIcon>
             <ListItemText primary={text} />
+            {countUnread(text, setUnreadCallback)}
+            {unread[text] > 0? unread[text] : ''}
           </ListItem>
         ))}
       </List>

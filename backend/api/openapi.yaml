@@ -196,36 +196,6 @@ paths:
           type: boolean
         style: form
 
-  /v0/read:
-    get:
-      description: Get the number of unread emails in mailbox
-      responses:
-        200:
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Count'
-        404:
-          description: Mailbox not found
-        500:
-          description: Internal Server error
-        default:
-          description: Unexpected Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-      parameters:
-      - name: mailbox
-        in: query
-        description: The desired mailbox of unread emails
-        required: true
-        schema:
-          type: string
-        style: form
-        
-
 components:
   schemas:
     Error:
@@ -295,15 +265,11 @@ components:
           type: boolean
 
     MailboxList:
-      type: object
-      properties:
-        list:
-          type: array
-          items:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
             type: string
-
-    Count:
-      type: object
-      properties:
-        number:
-          type: integer
+          count:
+            type: integer
