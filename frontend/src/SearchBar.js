@@ -34,9 +34,10 @@ const useStyles = makeStyles((theme) => ({
  * Default Searchbar function
  * @param {bool} open
  * @param {bool} mobile
+ * @param {function} setSearch
  * @return {JSX}
  */
-export default function searchBar(open, mobile) {
+export default function searchBar(open, mobile, setSearch) {
   const classes = useStyles();
 
   return (
@@ -46,6 +47,7 @@ export default function searchBar(open, mobile) {
       <OutlinedInput
         id='searchbar'
         className={mobile? classes.mobile : classes.normal}
+        onClick={() => setSearch(true)}
         startAdornment={
           <InputAdornment position='start'>
             <SearchIcon />

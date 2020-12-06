@@ -24,6 +24,9 @@ import searchBar from './SearchBar.js';
 import canvas from './Canvas.js';
 import taskbar from './taskbar.js';
 import mailViewer from './MailViewer';
+import composeViewer from './ComposeView';
+import searchViewer from './SearchViewer';
+import settingsViewer from './SettingsViewer';
 
 const drawerWidth = 240;
 
@@ -114,6 +117,9 @@ function MobileView() {
   const [open, setOpen] = React.useState(false);
   const [mailbox, setMailbox] = React.useState('Inbox');
   const [email, setEmail] = React.useState(false);
+  const [compose, setCompose] = React.useState(false);
+  const [search, setSearch] = React.useState(false);
+  const [settings, setSettings] = React.useState(false);
   const handleMailboxChange = (newMailbox) => {
     setMailbox(newMailbox);
   };
@@ -142,12 +148,12 @@ function MobileView() {
           >
             <MenuIcon />
           </IconButton>
-          {searchBar(open, true)}
+          {searchBar(open, true, setSearch)}
           <IconButton color="inherit">
-            <MailIcon />
+            <MailIcon onClick={() => setCompose(true)}/>
           </IconButton>
           <IconButton color="inherit">
-            <AccountCircleIcon />
+            <AccountCircleIcon onClick={() => setSettings(true)}/>
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -164,7 +170,7 @@ function MobileView() {
           </Typography>
         </div>
         <Divider />
-        {taskbar(mailbox, handleMailboxChange, setOpen)}
+        {taskbar(mailbox, handleMailboxChange, setOpen, setSettings)}
       </Drawer>
       <main className={classes.content} onClick={handleDrawerClose}>
         <div className={classes.appBarSpacer} />
@@ -184,8 +190,32 @@ function MobileView() {
     </div>
   );
 
+  const composeView = (
+    <div className={classes.root}>
+      {composeViewer(setCompose)}
+    </div>
+  );
+
+  const searchView = (
+    <div className={classes.root}>
+      {searchViewer(setSearch)}
+    </div>
+  );
+
+  const settingsView = (
+    <div className={classes.root}>
+      {settingsViewer(setSettings, true)}
+    </div>
+  );
+
   if (email) {
     return emailView;
+  } else if (compose) {
+    return composeView;
+  } else if (settings) {
+    return settingsView;
+  } else if (search) {
+    return searchView;
   } else {
     return mainView;
   }

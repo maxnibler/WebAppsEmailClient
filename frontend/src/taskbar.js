@@ -63,7 +63,6 @@ function getOtherMailboxes(mailboxes) {
       boxes.push(mailboxes[i]);
     }
   }
-  console.log(mailboxes);
   return boxes;
 }
 
@@ -71,9 +70,10 @@ function getOtherMailboxes(mailboxes) {
  * @param {string} mailbox
  * @param {function} setMailbox
  * @param {function} setOpen
+ * @param {function} setSettings
  * @return {JSX}
  */
-export default function taskbar(mailbox, setMailbox, setOpen) {
+export default function taskbar(mailbox, setMailbox, setOpen, setSettings) {
   const classes = useStyles();
   const [mailboxes, setMailboxes] = React.useState([
     {name: 'Inbox', count: 0},
@@ -196,7 +196,7 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary={'Settings'} />
+          <ListItemText primary={'Settings'} onClick={() => setSettings(true)}/>
         </ListItem>
       </List>
     </div>

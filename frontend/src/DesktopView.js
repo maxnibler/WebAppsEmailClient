@@ -24,6 +24,7 @@ import searchBar from './SearchBar.js';
 import taskbar from './taskbar.js';
 import canvas from './Canvas.js';
 import mailViewer from './MailViewer';
+// import composeView from './ComposeView';
 
 const drawerWidth = 240;
 const canvasWidth = '90ch';
@@ -107,6 +108,15 @@ function DesktopView() {
   const classes = useStyles();
   const [mailbox, setMailbox] = React.useState('Inbox');
   const [email, setEmail] = React.useState(false);
+  const [compose, setCompose] = React.useState(false);
+  const [settings, setSettings] = React.useState(false);
+
+  const toggleCompose = () => {
+    if (!compose) setEmail(false);
+    setCompose(!compose);
+  };
+
+  if (settings);
 
   return (
     <div className={classes.root}>
@@ -119,7 +129,7 @@ function DesktopView() {
             CSE183 Mail - {mailbox}
           </Typography>
           {searchBar(false)}
-          <IconButton color="inherit">
+          <IconButton color="inherit" onClick={() => toggleCompose()}>
             <MailIcon />
           </IconButton>
           <IconButton color="inherit">
@@ -136,7 +146,7 @@ function DesktopView() {
         <div className={classes.toolbarHeader}>
         </div>
         <Divider />
-        {taskbar(mailbox, setMailbox)}
+        {taskbar(mailbox, setMailbox, setSettings)}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
