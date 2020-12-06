@@ -129,4 +129,15 @@ exports.getStarred = async () => {
   return rows;
 }
 
+exports.changeRead = async (id, read) => {
+  const mail = await this.selectMail(id);
+  mail.read = read;
+  const update = 'UPDATE mail SET email = $1 WHERE id = $2';
+  const query = {
+    text: update,
+    values: [mail, id],
+  };
+  await pool.query(query);
+}
+
 console.log(`Connected to database '${process.env.POSTGRES_DB}'`);

@@ -35,6 +35,7 @@ app.get('/v0/mail/:id', mail.getEmail);
 app.post('/v0/mail/', mail.postEmail);
 app.put('/v0/mail/:id', mail.putEmail);
 app.put('/v0/starred/:id', mail.putStarred);
+app.put('/v0/read/:id', mail.setRead);
 
 app.use((err, req, res, next) => {
   res.status(err.status).json({

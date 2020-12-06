@@ -153,3 +153,15 @@ exports.putStarred = async (req, res) => {
     res.status(404).send('Not Found');
   }
 }
+
+exports.setRead = async (req, res) => {
+  const id = req.params.id;
+  const read = req.query.read;
+  // console.log(id, read);
+  if (typeof(read) === 'boolean') {
+    await db.changeRead(id, read);
+    res.status(200).send('Read Changed');
+  } else {
+    res.status(400).send('Illegal request. "Read" not boolean');
+  }
+}

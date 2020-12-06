@@ -87,6 +87,27 @@ function getMail(setMail, mailbox) {
 }
 
 /**
+ * @param {string} id
+ * @param {boolean} read
+ */
+function setRead(id, read) {
+  const url = 'http://172.16.0.18:3010/v0/read/'+id+'?read='+read;
+  const body = {
+    method: 'PUT',
+  };
+  // console.log(url);
+  fetch(url, body)
+      .then((response) => {
+        if (!response.ok) {
+          throw response;
+        }
+      })
+      .catch((error) => {
+        console.log(error.toString());
+      });
+}
+
+/**
  * Function to format the date of the email
  * @param {string} time the time time stamp of the email
  * @return {string}
@@ -187,7 +208,7 @@ export default function canvas(mailbox, setEmail) {
 
   const emailToViewer = (inEmail) => {
     setEmail(inEmail);
-    setRead(inEmail.id);
+    setRead(inEmail.id, true);
   };
 
   const generateMail = (setEmail) => {
