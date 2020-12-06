@@ -99,7 +99,6 @@ exports.getMailboxes = async (req, res) => {
     mailboxes.push(pair);
   }
   if (mailboxes) {
-    console.log(mailboxes);
     res.status(200).json(mailboxes);
   } else {
     res.status(500).send('No Mailboxes found');

@@ -26,36 +26,10 @@ function getMailboxes(setMailboxes) {
         return response.json();
       })
       .then((json) => {
-        setMailboxes(json.list);
+        setMailboxes(json);
       })
       .catch((error) => {
         setMailboxes(error.toString());
-      });
-}
-
-/**
- * @param {string} mailbox
- * @param {function} callback
- */
-function countUnread(mailbox, callback) {
-  const url = 'http://172.16.0.18:3010/v0/read/?mailbox='+mailbox;
-  const body = {
-    method: 'GET',
-  };
-  // console.log(url);
-  fetch(url, body)
-      .then((response) => {
-        if (!response.ok) {
-          throw response;
-        }
-        return response.json();
-      })
-      .then((json) => {
-        console.log(json);
-        callback(mailbox, json.number);
-      })
-      .catch((error) => {
-        console.log(error.toString());
       });
 }
 
@@ -81,11 +55,15 @@ const useStyles = makeStyles((theme) => ({
 function getOtherMailboxes(mailboxes) {
   const set = ['Inbox', 'Starred', 'Sent', 'Drafts', 'Trash'];
   const boxes = [];
+  if (mailboxes == undefined) {
+    return boxes;
+  }
   for (let i = 0; i < mailboxes.length; i++) {
-    if (!set.includes(mailboxes[i])) {
+    if (!set.includes(mailboxes[i].name)) {
       boxes.push(mailboxes[i]);
     }
   }
+  console.log(mailboxes);
   return boxes;
 }
 
@@ -97,16 +75,24 @@ function getOtherMailboxes(mailboxes) {
  */
 export default function taskbar(mailbox, setMailbox, setOpen) {
   const classes = useStyles();
-  const [mailboxes, setMailboxes] = React.
-      useState(['School', 'Work', 'Sent', 'Trash', 'Inbox']);
-  const [unread, setUnread] = React.useState({
-    'Inbox': 0,
-  });
+  const [mailboxes, setMailboxes] = React.useState([
+    {name: 'Inbox', count: 0},
+    {name: 'Work', count: 0},
+    {name: 'Sent', count: 0},
+    {name: 'Trash', count: 0},
+    {name: 'School', count: 0},
+    {name: 'Starred', count: 0},
+  ]);
 
-  const setUnreadCallback = (key, value) => {
-    const old = unread;
-    old[key] = value;
-    setUnread(old);
+  const countOf = (boxName) => {
+    let count = 0;
+    for (let i=0; i<mailboxes.length; i++) {
+      if (boxName == mailboxes[i].name) {
+        count = mailboxes[i].count;
+      }
+    }
+    if (count == 0) return '';
+    else return count;
   };
 
   const updateMailboxes = (newList) => {
@@ -150,8 +136,7 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
             {logos['Inbox']}
           </ListItemIcon>
           <ListItemText primary={'Inbox'} />
-          {countUnread('Inbox', setUnreadCallback)}
-          {unread.Inbox > 0? unread.Inbox : ''}
+          {mailboxes? countOf('Inbox') : ''}
         </ListItem>
       </List>
       <Divider />
@@ -171,8 +156,7 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
               {logos[text]}
             </ListItemIcon>
             <ListItemText primary={text} />
-            {countUnread(text, setUnreadCallback)}
-            {unread[text] > 0? unread[text] : ''}
+            {mailboxes? countOf(text) : ''}
           </ListItem>
         ))}
       </List>
@@ -181,10 +165,10 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
         {getOtherMailboxes(mailboxes).map((text, index) => (
           <ListItem
             button
-            key={text}
-            onClick={() => setNewMailbox(text)}
+            key={index}
+            onClick={() => setNewMailbox(text.name)}
             className={
-              mailbox == text ?
+              mailbox == text.name ?
                 classes.currentMailbox :
                 classes.normailMailbox
             }
@@ -192,9 +176,8 @@ export default function taskbar(mailbox, setMailbox, setOpen) {
             <ListItemIcon>
               <ArrowForwardIcon />
             </ListItemIcon>
-            <ListItemText primary={text} />
-            {countUnread(text, setUnreadCallback)}
-            {unread[text] > 0? unread[text] : ''}
+            <ListItemText primary={text.name} />
+            {mailboxes? countOf(text.name) : ''}
           </ListItem>
         ))}
       </List>
