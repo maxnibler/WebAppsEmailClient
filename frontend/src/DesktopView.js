@@ -110,13 +110,17 @@ function DesktopView() {
   const [email, setEmail] = React.useState(false);
   const [compose, setCompose] = React.useState(false);
   const [settings, setSettings] = React.useState(false);
+  const [search, setSearch] = React.useState(false);
+  const setOpen = () => {
+    console.log('open');
+  };
 
   const toggleCompose = () => {
     if (!compose) setEmail(false);
     setCompose(!compose);
   };
 
-  if (settings);
+  if (settings && search);
 
   return (
     <div className={classes.root}>
@@ -128,7 +132,7 @@ function DesktopView() {
           <Typography className={classes.logo}>
             CSE183 Mail - {mailbox}
           </Typography>
-          {searchBar(false)}
+          {searchBar(false, false, setSearch)}
           <IconButton color="inherit" onClick={() => toggleCompose()}>
             <MailIcon />
           </IconButton>
@@ -146,7 +150,7 @@ function DesktopView() {
         <div className={classes.toolbarHeader}>
         </div>
         <Divider />
-        {taskbar(mailbox, setMailbox, setSettings)}
+        {taskbar(mailbox, setMailbox, setOpen, setSettings)}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

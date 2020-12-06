@@ -1,15 +1,30 @@
 
-import {Box} from '@material-ui/core';
+import {Box, Button, Typography} from '@material-ui/core';
 import React from 'react';
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 
 /**
  * @param {function} setCompose
+ * @param {boolean} mobile
  * @return {JSX}
  */
-function composeViewer(setCompose) {
+function composeViewer(setCompose, mobile) {
+  const setClose = () => {
+    if (mobile) {
+      return (
+        <Button onClick={() => setCompose(false)}>
+          <ArrowBackIosIcon/>
+        </Button>
+      );
+    }
+  };
+
   return (
     <Box>
-      Compose
+      {setClose()}
+      <Typography>
+        Compose
+      </Typography>
     </Box>
   );
 }

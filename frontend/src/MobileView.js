@@ -192,13 +192,13 @@ function MobileView() {
 
   const composeView = (
     <div className={classes.root}>
-      {composeViewer(setCompose)}
+      {composeViewer(setCompose, true)}
     </div>
   );
 
   const searchView = (
     <div className={classes.root}>
-      {searchViewer(setSearch)}
+      {searchViewer(setSearch, true)}
     </div>
   );
 
