@@ -165,3 +165,12 @@ exports.setRead = async (req, res) => {
     res.status(400).send('Illegal request. "Read" not boolean');
   }
 }
+
+exports.getRead = async (req, res) => {
+  const mailbox = req.query.mailbox;
+  if (mailbox) {
+    res.status(200).send({number: 100});
+  } else {
+    res.status(400).send('No mailbox specified');
+  }
+}

@@ -205,8 +205,7 @@ paths:
           content:
             application/json:
               schema:
-                type: integer
-                format: int32
+                $ref: '#/components/schemas/Count'
         404:
           description: Mailbox not found
         500:
@@ -220,8 +219,8 @@ paths:
       parameters:
       - name: mailbox
         in: query
-        description: The destination mailbox for the email
-        required: false
+        description: The desired mailbox of unread emails
+        required: true
         schema:
           type: string
         style: form
@@ -302,3 +301,9 @@ components:
           type: array
           items:
             type: string
+
+    Count:
+      type: object
+      properties:
+        number:
+          type: integer
