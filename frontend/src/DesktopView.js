@@ -112,6 +112,7 @@ function DesktopView() {
   const [settings, setSettings] = React.useState(false);
   const [search, setSearch] = React.useState(false);
   const [mail, setMail] = React.useState(undefined);
+
   const setOpen = () => {
     console.log('open');
   };
