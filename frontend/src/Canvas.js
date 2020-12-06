@@ -7,8 +7,6 @@ import {makeStyles} from '@material-ui/core/styles';
 import starred from './starred';
 import formatDate from './TimeFormat';
 
-const api = require('./APIcalls');
-
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -90,13 +88,43 @@ function getMail(setMail, mailbox) {
 }
 
 /**
+ * @param {string} id
+ * @param {boolean} read
+ */
+function setRead(id, read) {
+  const url = 'http://172.16.0.18:3010/v0/read/'+id+'?read='+read;
+  const body = {
+    method: 'PUT',
+  };
+  // console.log(url);
+  fetch(url, body)
+      .then((response) => {
+        if (!response.ok) {
+          throw response;
+        }
+      })
+      .catch((error) => {
+        console.log(error.toString());
+      });
+};
+
+/**
  * @param {string} mailbox
  * @param {function} setEmail
+ * @param {array} mail
+ * @param {function} setMail
  * @return {JSX}
  */
-export default function canvas(mailbox, setEmail) {
+export default function canvas(mailbox, setEmail, mail, setMail) {
   const classes = useStyles();
-  const [mail, setMail] = React.useState(undefined);
+
+  const refreshMail = (newMail) => {
+    if (JSON.stringify(newMail) != JSON.stringify(mail)) {
+      setMail(newMail);
+    } else {
+      return;
+    }
+  };
 
   const mailItem = (email) => {
     return (
@@ -141,7 +169,7 @@ export default function canvas(mailbox, setEmail) {
 
   const emailToViewer = (inEmail) => {
     setEmail(inEmail);
-    api.setRead(inEmail.id, true);
+    setRead(inEmail.id, true);
   };
 
   const generateMail = (setEmail) => {
@@ -168,7 +196,7 @@ export default function canvas(mailbox, setEmail) {
   return (
     <Box>
       <Divider/>
-      {getMail(setMail, mailbox)}
+      {getMail(refreshMail, mailbox)}
       {generateMail(setEmail)}
     </Box>
   );

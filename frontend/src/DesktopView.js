@@ -111,6 +111,7 @@ function DesktopView() {
   const [compose, setCompose] = React.useState(false);
   const [settings, setSettings] = React.useState(false);
   const [search, setSearch] = React.useState(false);
+  const [mail, setMail] = React.useState(undefined);
   const setOpen = () => {
     console.log('open');
   };
@@ -158,7 +159,7 @@ function DesktopView() {
           <Container
             className={classes.canvas}
           >
-            {canvas(mailbox, setEmail)}
+            {canvas(mailbox, setEmail, mail, setMail)}
           </Container>
           <Container
             className={clsx(classes.mailViewer, !email && classes.Hidden)}

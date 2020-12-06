@@ -11,7 +11,6 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import starred from './starred';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import formatDate from './TimeFormat';
-const api = require('./APIcalls');
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +62,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+/**
+ * @param {string} id
+ * @param {boolean} read
+ */
+function setRead(id, read) {
+  const url = 'http://172.16.0.18:3010/v0/read/'+id+'?read='+read;
+  const body = {
+    method: 'PUT',
+  };
+  // console.log(url);
+  fetch(url, body)
+      .then((response) => {
+        if (!response.ok) {
+          throw response;
+        }
+      })
+      .catch((error) => {
+        console.log(error.toString());
+      });
+};
 
 /**
  * The viewer for an email
@@ -75,7 +94,7 @@ function mailViewer(email, setEmail, mobile) {
   const classes = useStyles();
 
   const setUnread = () => {
-    api.setRead(email.id, false);
+    setRead(email.id, false);
     setEmail(false);
   };
 

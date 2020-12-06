@@ -120,6 +120,7 @@ function MobileView() {
   const [compose, setCompose] = React.useState(false);
   const [search, setSearch] = React.useState(false);
   const [settings, setSettings] = React.useState(false);
+  const [mail, setMail] = React.useState(undefined);
   const handleMailboxChange = (newMailbox) => {
     setMailbox(newMailbox);
   };
@@ -178,7 +179,7 @@ function MobileView() {
           <Typography>
             {mailbox}
           </Typography>
-          {canvas(mailbox, setEmail)}
+          {canvas(mailbox, setEmail, mail, setMail)}
         </Container>
       </main>
     </div>
