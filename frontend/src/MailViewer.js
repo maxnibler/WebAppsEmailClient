@@ -10,6 +10,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import starred from './starred';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import formatDate from './TimeFormat';
+const api = require('./APIcalls');
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -72,6 +74,11 @@ const useStyles = makeStyles((theme) => ({
 function mailViewer(email, setEmail, mobile) {
   const classes = useStyles();
 
+  const setUnread = () => {
+    api.setRead(email.id, false);
+    setEmail(false);
+  };
+
   const setClose = () => {
     if (mobile) {
       return (
@@ -81,6 +88,7 @@ function mailViewer(email, setEmail, mobile) {
       );
     }
   };
+
   return (
     <Box>
       <Box className={classes.topbar}>
@@ -90,7 +98,7 @@ function mailViewer(email, setEmail, mobile) {
           {setClose()}
         </Box>
         <Box className={classes.topIcons}>
-          <MailOutlineIcon/>
+          <MailOutlineIcon button onClick={() => setUnread()}/>
           <MoveToInboxIcon/>
           <DeleteIcon/>
         </Box>
@@ -113,11 +121,27 @@ function mailViewer(email, setEmail, mobile) {
           <Avatar>{email? email.from.name[0] : 'A'}</Avatar>
         </Box>
         <Box className={classes.from}>
-          <Box>
-            {email? email.from.name : 'Error'}
+          <Box className={classes.root}>
+            <Box>
+              {email?
+                email.mailbox == 'Sent'?
+                  email.to.name :
+                  email.from.name :
+                'Error'}
+            </Box>
+            <Box width='8px'>
+              {' '}
+            </Box>
+            <Box>
+              {email? formatDate(email.sent) : 'Error'}
+            </Box>
           </Box>
           <Box>
-            {email? email.from.email : 'Error'}
+            {email?
+              email.mailbox == 'Sent'?
+                email.to.email :
+                email.from.email :
+              'Error'}
           </Box>
         </Box>
         <Box className={classes.back}>

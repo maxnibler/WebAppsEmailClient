@@ -5,6 +5,9 @@ import {Box, List, ListItem, Avatar} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import {makeStyles} from '@material-ui/core/styles';
 import starred from './starred';
+import formatDate from './TimeFormat';
+
+const api = require('./APIcalls');
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -87,76 +90,6 @@ function getMail(setMail, mailbox) {
 }
 
 /**
- * @param {string} id
- * @param {boolean} read
- */
-function setRead(id, read) {
-  const url = 'http://172.16.0.18:3010/v0/read/'+id+'?read='+read;
-  const body = {
-    method: 'PUT',
-  };
-  // console.log(url);
-  fetch(url, body)
-      .then((response) => {
-        if (!response.ok) {
-          throw response;
-        }
-      })
-      .catch((error) => {
-        console.log(error.toString());
-      });
-}
-
-/**
- * Function to format the date of the email
- * @param {string} time the time time stamp of the email
- * @return {string}
- */
-function formatDate(time) {
-  const months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec',
-  ];
-  const date = new Date();
-  const inDate = new Date(time);
-  let outDate;
-  outDate = time;
-  if (date.getMonth() == inDate.getMonth()) {
-    if (date.getDate() == inDate.getDate()) {
-      let min = inDate.getMinutes();
-      let hour = inDate.getHours();
-      let ampm = ' am';
-      min = ('0'+min).slice(-2);
-      if (hour >= 12) {
-        hour -= 12;
-        ampm = ' pm';
-      }
-      if (hour == 0) {
-        hour = 12;
-      }
-      outDate = hour+':'+min+ampm;
-    } else if (date.getDate() == inDate.getDate() + 1) {
-      outDate = 'yesterday';
-    }
-  } else if (date > inDate) {
-    outDate = months[inDate.getMonth()]+' '+inDate.getDate();
-  } else {
-    outDate = time;
-  }
-  return outDate;
-}
-
-/**
  * @param {string} mailbox
  * @param {function} setEmail
  * @return {JSX}
@@ -208,7 +141,7 @@ export default function canvas(mailbox, setEmail) {
 
   const emailToViewer = (inEmail) => {
     setEmail(inEmail);
-    setRead(inEmail.id, true);
+    api.setRead(inEmail.id, true);
   };
 
   const generateMail = (setEmail) => {
