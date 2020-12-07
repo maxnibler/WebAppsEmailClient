@@ -156,7 +156,7 @@ export default function taskbar(mailbox, setMailbox, setOpen, setSettings) {
               {logos[text]}
             </ListItemIcon>
             <ListItemText primary={text} />
-            {mailboxes? countOf(text) : ''}
+            {mailboxes? text != 'Sent' ? countOf(text) : '' : ''}
           </ListItem>
         ))}
       </List>
