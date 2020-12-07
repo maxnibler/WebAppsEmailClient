@@ -29,13 +29,16 @@ function putStarred(id, starred) {
  * Returns the correct star icon
  * @param {obj} mail
  * @param {function} setEmail
+ * @param {function} forceRefresh
  * @return {JSX}
  */
-function starred(mail, setEmail) {
+function starred(mail, setEmail, forceRefresh) {
   const setStarred = (s) => {
+    const newMail = mail;
     putStarred(mail.id, s);
-    mail.starred = s;
-    setEmail(mail);
+    newMail.starred = s;
+    setEmail(newMail);
+    forceRefresh(true);
   };
 
   if (mail.starred) {

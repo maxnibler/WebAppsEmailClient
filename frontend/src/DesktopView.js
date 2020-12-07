@@ -2,7 +2,7 @@
  * Code borrowed from material-ui.com
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -25,6 +25,8 @@ import taskbar from './taskbar.js';
 import canvas from './Canvas.js';
 import mailViewer from './MailViewer';
 // import composeView from './ComposeView';
+
+const api = require('./APIcalls.js');
 
 const drawerWidth = 240;
 const canvasWidth = '90ch';
@@ -112,6 +114,12 @@ function DesktopView() {
   const [settings, setSettings] = React.useState(false);
   const [search, setSearch] = React.useState(false);
   const [mail, setMail] = React.useState(undefined);
+  const [force, forceRefresh] = React.useState(false);
+
+  useEffect(() => {
+    api.getMail(setMail, mailbox);
+    forceRefresh(false);
+  }, [email, mailbox, force]);
 
   const setOpen = () => {
     console.log('open');
@@ -160,12 +168,12 @@ function DesktopView() {
           <Container
             className={classes.canvas}
           >
-            {canvas(mailbox, setEmail, mail, setMail)}
+            {canvas(setEmail, mail, forceRefresh)}
           </Container>
           <Container
             className={clsx(classes.mailViewer, !email && classes.Hidden)}
           >
-            {mailViewer(email, setEmail, false)}
+            {mailViewer(email, setEmail, false, forceRefresh)}
           </Container>
         </Container>
       </main>

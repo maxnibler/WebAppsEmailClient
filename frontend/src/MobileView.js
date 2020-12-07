@@ -1,7 +1,7 @@
 /**
  * Code borrowed from material-ui.com
  */
-import React from 'react';
+import React, {useEffect} from 'react';
 import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -27,6 +27,8 @@ import mailViewer from './MailViewer';
 import composeViewer from './ComposeView';
 import searchViewer from './SearchViewer';
 import settingsViewer from './SettingsViewer';
+
+const api = require('./APIcalls.js');
 
 const drawerWidth = 240;
 
@@ -121,6 +123,12 @@ function MobileView() {
   const [search, setSearch] = React.useState(false);
   const [settings, setSettings] = React.useState(false);
   const [mail, setMail] = React.useState(undefined);
+  const [force, forceRefresh] = React.useState(false);
+
+  useEffect(() => {
+    api.getMail(setMail, mailbox);
+  }, [email, mailbox, force]);
+
   const handleMailboxChange = (newMailbox) => {
     setMailbox(newMailbox);
   };
@@ -179,7 +187,7 @@ function MobileView() {
           <Typography>
             {mailbox}
           </Typography>
-          {canvas(mailbox, setEmail, mail, setMail)}
+          {canvas(setEmail, mail, forceRefresh)}
         </Container>
       </main>
     </div>
@@ -187,7 +195,7 @@ function MobileView() {
 
   const emailView = (
     <div className={classes.root}>
-      {mailViewer(email, setEmail, true)}
+      {mailViewer(email, setEmail, true, forceRefresh)}
     </div>
   );
 

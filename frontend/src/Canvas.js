@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import {Box, List, ListItem, Avatar} from '@material-ui/core';
@@ -67,25 +67,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/**
- * @param {function} setMail setMail state
- * @param {string} mailbox
- */
-function getMail(setMail, mailbox) {
-  fetch('http://172.16.0.18:3010/v0/mail?mailbox='+mailbox)
-      .then((response) => {
-        if (!response.ok) {
-          throw response;
-        }
-        return response.json();
-      })
-      .then((json) => {
-        setMail(json);
-      })
-      .catch((error) => {
-        setMail(error.toString());
-      });
-}
 
 /**
  * @param {string} id
@@ -109,19 +90,18 @@ function setRead(id, read) {
 };
 
 /**
- * @param {string} mailbox
  * @param {function} setEmail
  * @param {array} mail
- * @param {function} setMail
+ * @param {function} forceRefresh
  * @return {JSX}
  */
-export default function canvas(mailbox, setEmail, mail, setMail) {
+export default function canvas(setEmail, mail, forceRefresh) {
   const classes = useStyles();
-
+  /*
   useEffect(() => {
     getMail(setMail, mailbox);
   }, [mail]);
-
+  */
   const mailItem = (email) => {
     return (
       <Box className={classes.root}>
@@ -156,7 +136,7 @@ export default function canvas(mailbox, setEmail, mail, setMail) {
             {formatDate(email.sent)}
           </Box>
           <Box className={classes.star}>
-            {starred(email, setEmail)}
+            {starred(email, setEmail, forceRefresh)}
           </Box>
         </Box>
       </Box>

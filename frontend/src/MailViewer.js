@@ -88,9 +88,10 @@ function setRead(id, read) {
  * @param {obj} email The email to display
  * @param {function} setEmail The set state function for email
  * @param {bool} mobile bool representing whether mobile view
+ * @param {function} forceRefresh
  * @return {JSX}
  */
-function mailViewer(email, setEmail, mobile) {
+function mailViewer(email, setEmail, mobile, forceRefresh) {
   const classes = useStyles();
 
   const setUnread = () => {
@@ -133,7 +134,10 @@ function mailViewer(email, setEmail, mobile) {
           <Box width='100%'>
           </Box>
         </Box>
-        {email? starred(email, setEmail) : <StarBorderIcon flexshrink={1}/>}
+        {email?
+          starred(email, setEmail, forceRefresh) :
+          <StarBorderIcon flexshrink={1}/>
+        }
       </Box>
       <Box className={classes.bottombar}>
         <Box className={classes.avatar}>
