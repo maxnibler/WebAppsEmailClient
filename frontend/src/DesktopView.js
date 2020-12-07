@@ -14,6 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import Hidden from '@material-ui/core/Hidden';
 import MenuIcon from '@material-ui/icons/Menu';
 // import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
@@ -58,10 +59,10 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: 36,
     [theme.breakpoints.down('lg')]: {
-      display: 'none',
+      display: 'flex',
     },
     [theme.breakpoints.up('lg')]: {
-      display: 'flex',
+      display: 'none',
     },
   },
   title: {
@@ -165,10 +166,8 @@ function DesktopView() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <div
-        className={
-          clsx(classes.root, open && classes.Hidden)
-        }
+      <Hidden
+        mdDown
       >
         <Drawer
           classes={{
@@ -181,7 +180,24 @@ function DesktopView() {
           <Divider />
           {taskbar(mailbox, setMailbox, setOpen, setSettings)}
         </Drawer>
-      </div>
+      </Hidden>
+      <Hidden
+        lgUp
+      >
+        <Drawer
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          variant='temporary'
+          open={open}
+          onClose={toggleDrawer}
+        >
+          <div className={classes.toolbarHeader}>
+          </div>
+          <Divider />
+          {taskbar(mailbox, setMailbox, setOpen, setSettings)}
+        </Drawer>
+      </Hidden>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.container}>
