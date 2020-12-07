@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import clsx from 'clsx';
 import Typography from '@material-ui/core/Typography';
 import {Box, List, ListItem, Avatar} from '@material-ui/core';
@@ -118,6 +118,10 @@ function setRead(id, read) {
 export default function canvas(mailbox, setEmail, mail, setMail) {
   const classes = useStyles();
 
+  useEffect(() => {
+    getMail(refreshMail, mailbox);
+  }, [mail]);
+
   const refreshMail = (newMail) => {
     if (JSON.stringify(newMail) != JSON.stringify(mail)) {
       setMail(newMail);
@@ -196,7 +200,6 @@ export default function canvas(mailbox, setEmail, mail, setMail) {
   return (
     <Box>
       <Divider/>
-      {getMail(refreshMail, mailbox)}
       {generateMail(setEmail)}
     </Box>
   );
