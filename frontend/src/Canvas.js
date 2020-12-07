@@ -151,7 +151,7 @@ export default function canvas(setEmail, mail, forceRefresh) {
   const generateMail = (setEmail) => {
     let splitMail = mail;
     if (Array.isArray(splitMail)) {
-      splitMail = splitMail.splice(0, 50);
+      splitMail = mail.slice(0, 50);
     } else {
       return 'This mailbox is empty';
     }

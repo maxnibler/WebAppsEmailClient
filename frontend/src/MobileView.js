@@ -127,7 +127,7 @@ function MobileView() {
 
   useEffect(() => {
     api.getMail(setMail, mailbox);
-  }, [email, mailbox, force]);
+  }, [email, mailbox, force, settings, compose, search, open]);
 
   const handleMailboxChange = (newMailbox) => {
     setMailbox(newMailbox);

@@ -14,6 +14,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 // import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 // import Grid from '@material-ui/core/Grid';
@@ -56,9 +57,12 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: 36,
-  },
-  menuButtonHidden: {
-    display: 'none',
+    [theme.breakpoints.down('lg')]: {
+      display: 'none',
+    },
+    [theme.breakpoints.up('lg')]: {
+      display: 'flex',
+    },
   },
   title: {
     flexGrow: 1,
@@ -115,19 +119,20 @@ function DesktopView() {
   const [search, setSearch] = React.useState(false);
   const [mail, setMail] = React.useState(undefined);
   const [force, forceRefresh] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
     api.getMail(setMail, mailbox);
     forceRefresh(false);
-  }, [email, mailbox, force]);
-
-  const setOpen = () => {
-    console.log('open');
-  };
+  }, [email, mailbox, force, open]);
 
   const toggleCompose = () => {
     if (!compose) setEmail(false);
     setCompose(!compose);
+  };
+
+  const toggleDrawer = () => {
+    setOpen(!open);
   };
 
   if (settings && search);
@@ -139,6 +144,15 @@ function DesktopView() {
         className={classes.appBar}
         width={100}>
         <Toolbar className={classes.toolbar}>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={toggleDrawer}
+            className={classes.menuButton}
+          >
+            <MenuIcon />
+          </IconButton>
           <Typography className={classes.logo}>
             CSE183 Mail - {mailbox}
           </Typography>
@@ -151,17 +165,23 @@ function DesktopView() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
-        classes={{
-          paper: classes.drawerPaper,
-        }}
-        variant='permanent'
+      <div
+        className={
+          clsx(classes.root, open && classes.Hidden)
+        }
       >
-        <div className={classes.toolbarHeader}>
-        </div>
-        <Divider />
-        {taskbar(mailbox, setMailbox, setOpen, setSettings)}
-      </Drawer>
+        <Drawer
+          classes={{
+            paper: classes.drawerPaper,
+          }}
+          variant='permanent'
+        >
+          <div className={classes.toolbarHeader}>
+          </div>
+          <Divider />
+          {taskbar(mailbox, setMailbox, setOpen, setSettings)}
+        </Drawer>
+      </div>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container className={classes.container}>
