@@ -119,16 +119,8 @@ export default function canvas(mailbox, setEmail, mail, setMail) {
   const classes = useStyles();
 
   useEffect(() => {
-    getMail(refreshMail, mailbox);
+    getMail(setMail, mailbox);
   }, [mail]);
-
-  const refreshMail = (newMail) => {
-    if (JSON.stringify(newMail) != JSON.stringify(mail)) {
-      setMail(newMail);
-    } else {
-      return;
-    }
-  };
 
   const mailItem = (email) => {
     return (

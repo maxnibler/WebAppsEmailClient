@@ -137,7 +137,14 @@ function mailViewer(email, setEmail, mobile) {
       </Box>
       <Box className={classes.bottombar}>
         <Box className={classes.avatar}>
-          <Avatar>{email? email.from.name[0] : 'A'}</Avatar>
+          <Avatar>
+            {email?
+              email.mailbox == 'Sent'?
+                email.to.name[0] :
+                email.from.name[0] :
+              'A'
+            }
+          </Avatar>
         </Box>
         <Box className={classes.from}>
           <Box className={classes.root}>
