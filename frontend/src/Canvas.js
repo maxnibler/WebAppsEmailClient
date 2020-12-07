@@ -7,6 +7,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import starred from './starred';
 import formatDate from './TimeFormat';
 
+const api = require('./APIcalls.js');
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -69,27 +71,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 /**
- * @param {string} id
- * @param {boolean} read
- */
-function setRead(id, read) {
-  const url = 'http://172.16.0.18:3010/v0/read/'+id+'?read='+read;
-  const body = {
-    method: 'PUT',
-  };
-  // console.log(url);
-  fetch(url, body)
-      .then((response) => {
-        if (!response.ok) {
-          throw response;
-        }
-      })
-      .catch((error) => {
-        console.log(error.toString());
-      });
-};
-
-/**
  * @param {function} setEmail
  * @param {array} mail
  * @param {function} forceRefresh
@@ -102,16 +83,25 @@ export default function canvas(setEmail, mail, forceRefresh) {
     getMail(setMail, mailbox);
   }, [mail]);
   */
+
+  const doNotOpen = (e) => {
+    console.log(e);
+    // e.stopPropagation();
+    return false;
+  };
+
   const mailItem = (email) => {
     return (
-      <Box className={classes.root}>
+      <Box
+        className={classes.root}
+        onClick={()=>emailToViewer(email)}
+      >
         <Box className={classes.avatar}>
           <Avatar>{email.from.name[0]}</Avatar>
         </Box>
         <Box
           className={classes.mailLeft}
           button
-          onClick={()=>emailToViewer(email)}
         >
           <Typography
             className={clsx(classes.fromName, !email.read && classes.fromNameB)}
@@ -135,7 +125,7 @@ export default function canvas(setEmail, mail, forceRefresh) {
           <Box className={classes.date}>
             {formatDate(email.sent)}
           </Box>
-          <Box className={classes.star}>
+          <Box className={classes.star} onClick={doNotOpen}>
             {starred(email, setEmail, forceRefresh)}
           </Box>
         </Box>
@@ -145,7 +135,7 @@ export default function canvas(setEmail, mail, forceRefresh) {
 
   const emailToViewer = (inEmail) => {
     setEmail(inEmail);
-    setRead(inEmail.id, true);
+    api.setRead(inEmail.id, true);
   };
 
   const generateMail = (setEmail) => {

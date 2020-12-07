@@ -195,7 +195,7 @@ function MobileView() {
 
   const emailView = (
     <div className={classes.root}>
-      {mailViewer(email, setEmail, true, forceRefresh)}
+      {mailViewer(email, setEmail, true, forceRefresh, setCompose)}
     </div>
   );
 

@@ -89,13 +89,20 @@ function setRead(id, read) {
  * @param {function} setEmail The set state function for email
  * @param {bool} mobile bool representing whether mobile view
  * @param {function} forceRefresh
+ * @param {function} setCompose
  * @return {JSX}
  */
-function mailViewer(email, setEmail, mobile, forceRefresh) {
+function mailViewer(email, setEmail, mobile, forceRefresh, setCompose) {
   const classes = useStyles();
 
   const setUnread = () => {
     setRead(email.id, false);
+    setEmail(false);
+  };
+
+  const makeReply = () => {
+    const to = {name: email.from.name, email: email.from.email};
+    setCompose(to);
     setEmail(false);
   };
 
@@ -175,7 +182,7 @@ function mailViewer(email, setEmail, mobile, forceRefresh) {
           </Box>
         </Box>
         <Box className={classes.back}>
-          <ArrowBackIcon/>
+          <ArrowBackIcon button onClick={() => makeReply()}/>
         </Box>
       </Box>
       {email? email.content : 'Error'}
