@@ -201,7 +201,7 @@ function MobileView() {
 
   const composeView = (
     <div className={classes.root}>
-      {composeViewer(setCompose, true)}
+      {composeViewer(compose, setCompose, true)}
     </div>
   );
 
